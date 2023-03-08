@@ -1,2 +1,1 @@
-# Website
-https://doses.ai website
+Hello world!
