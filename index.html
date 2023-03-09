@@ -2,59 +2,81 @@
 <html>
 <head>
 	<title>My Website</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<header>
-		<img src="logo.png" alt="My Logo" class="logo">
-		<a href="#waitlist" class="join-button">Join the early access waitlist</a>
+		<div class="logo">
+			<img src="logo.png" alt="Logo">
+		</div>
+		<div class="button">
+			<a href="#bottom">Join the early access waitlist</a>
+		</div>
 	</header>
+
 	<main>
-		<h1 class="title">My Website Title</h1>
-		<p class="subtitle">A short description of my website</p>
-		<img src="image.jpg" alt="My Image" class="main-image">
-		<table class="content-table">
-			<tr>
-				<th></th>
-				<th class="bold-text">Column 1</th>
-				<th class="bold-text">Column 2</th>
+		<h1>My Website Title</h1>
+		<h2>Subtitle</h2>
+		<div class="center">
+			<img src="image.jpg" alt="Image">
+		</div>
+		<table>
+			<tr class="bold">
+				<td></td>
+				<td>Column 1</td>
+				<td>Column 2</td>
+				<td>Column 3</td>
 			</tr>
 			<tr>
-				<td class="bold-text">Row 1</td>
-				<td class="light-text">Cell 1</td>
-				<td class="light-text">Cell 2</td>
+				<td class="bold">Row 1</td>
+				<td>Content 1</td>
+				<td>Content 2</td>
+				<td>Content 3</td>
+			</tr>
+			<tr class="bold">
+				<td colspan="4">
+					<div class="gradient-line"></div>
+				</td>
 			</tr>
 			<tr>
-				<td class="bold-text">Row 2</td>
-				<td class="light-text">Cell 3</td>
-				<td class="light-text">Cell 4</td>
+				<td>Row 2</td>
+				<td>Content 4</td>
+				<td>Content 5</td>
+				<td>Content 6</td>
+			</tr>
+			<tr class="bold">
+				<td colspan="4">
+					<div class="gradient-line"></div>
+				</td>
 			</tr>
 			<tr>
-				<td class="bold-text">Row 3</td>
-				<td class="light-text">Cell 5</td>
-				<td class="light-text">Cell 6</td>
+				<td>Row 3</td>
+				<td>Content 7</td>
+				<td>Content 8</td>
+				<td>Content 9</td>
 			</tr>
 		</table>
-		<p class="bold-text">Some sentence here.</p>
-		<div class="line-gradient"></div>
-		<p class="light-text">Some light text here.</p>
-		<div class="line"></div>
-		<p class="light-text">Some more light text here.</p>
-		<div class="line"></div>
-		<br>
-		<p class="bold-text">Some bold text here.</p>
-		<div class="line"></div>
-		<p class="light-text">Some more light text here.</p>
-		<div class="line"></div>
-		<br>
-		<p class="bold-text">Some bold text here.</p>
-		<div class="line"></div>
-		<p class="light-text">Some more light text here.</p>
-		<div class="line"></div>
-		<br>
-		<footer>
-			<p class="copyright">&copy; 2023 My Website</p>
-		</footer>
+		<p class="bold">Sentence</p>
+		<div class="gradient-line"></div>
+		<p class="thin">Text</p>
+		<div class="gradient-line"></div>
+		<p class="thin">Text</p>
+		<div class="space"></div>
+		<p class="bold">Bold Text</p>
+		<div class="gradient-line"></div>
+		<p class="thin">Text</p>
+		<div class="gradient-line"></div>
+		<div class="space"></div>
+		<p class="bold">Bold Text</p>
+		<div class="gradient-line"></div>
+		<p class="thin">Text</p>
+		<div class="gradient-line"></div>
+		<div class="space"></div>
+		<p class="thin">Copyright © 2023 My Website. All rights reserved.</p>
 	</main>
+
+	<footer id="bottom"></footer>
 </body>
 </html>
