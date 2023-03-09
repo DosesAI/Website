@@ -1,113 +1,143 @@
-/* set padding and background color for the body */
+/* Global Styles */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
 body {
-  padding: 0;
-  margin: 0;
-  background-color: #171A1E;
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	background-color: #171A1E;
+	color: white;
 }
 
-/* set font styles for all text */
-body, h1, h2, p, td {
-  font-family: 'Helvetica', sans-serif;
-  font-size: 16px;
-  font-weight: normal;
-  color: white;
-  text-align: center;
+a {
+	text-decoration: none;
+	color: white;
 }
 
-/* set styles for the header */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
+/* Layout Styles */
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 50px;
 }
 
-/* style the logo */
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 10px;
+}
+
 .logo {
-  width: 80px;
-  height: 80px;
-  margin-left: 10px;
+	padding: 10px;
 }
 
-/* style the button */
-.button {
-  border-radius: 20px;
-  border: 2px solid linear-gradient(-60deg, purple, lightblue, orange);
-  color: white;
-  padding: 10px 20px;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1;
-  background-color: transparent;
+.waitlist {
+	padding: 10px;
+	border: none;
+	background-color: transparent;
+	border-radius: 20px;
+	background-image: linear-gradient(-60deg, #9c27b0, #03a9f4, #ff9800);
+	color: white;
+	font-weight: bold;
 }
 
-
-/* style the subtitle */
-.subtitle {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 50px 0;
+.hero-image {
+	width: 100%;
+	height: auto;
+	padding: 10px;
+	object-fit: cover;
+	object-position: center top;
 }
 
-/* style the main image */
-.main-image {
-  width: calc(100% - 60px);
-  height: auto;
-  max-width: 100%;
-  margin: 0 auto;
-  display: block;
-  padding: 10px;
+.table-container {
+	padding: 20px;
 }
 
-/* set styles for the table */
 table {
-  margin: 0 auto;
-  border-collapse: collapse;
-  text-align: center;
+	width: 100%;
+	border-collapse: collapse;
 }
 
-/* set styles for table headers */
-th {
-  font-weight: bold;
-  padding: 10px;
-}
-
-/* set styles for top row of table */
-tr:first-child {
-  font-weight: bold;
-  background-image: linear-gradient(to bottom, purple, orange);
-  color: white;
-}
-
-/* set styles for left column of table */
-td:first-child {
-  font-weight: bold;
-}
-
-/* set styles for the bottom row of table */
-tr:last-child {
-  background-image: linear-gradient(to top, purple, orange);
-}
-
-/* set styles for table cells */
 td {
-  padding: 10px;
+	border-top: 1px solid;
+	border-image: linear-gradient(-60deg, #9c27b0, #03a9f4, #ff9800);
+	border-image-slice: 1;
+	padding: 10px;
 }
 
-/* set styles for footer */
-footer {
-  margin-top: 50px;
-  padding: 30px;
-  background-image: linear-gradient(to right, purple, lightblue, orange);
+.table-heading {
+	font-weight: bold;
+	font-size: 1.2rem;
+	margin-bottom: 10px;
 }
 
-/* set styles for horizontal lines in the footer */
-hr {
-  border: none;
-  border-top: 2px solid white;
-  margin: 30px 0;
+.hr {
+	border-top: 2px solid;
+	border-image: linear-gradient(-60deg, #9c27b0, #03a9f4, #ff9800);
+	border-image-slice: 30;
+	margin: 30px 0;
+}
+
+/* Typography Styles */
+.title {
+	font-size: 4rem;
+	font-weight: bold;
+	text-align: center;
+	margin: 50px 0;
+}
+
+.subtitle {
+	font-size: 1.2rem;
+	font-weight: lighter;
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+.text {
+	font-size: 1rem;
+	font-weight: lighter;
+	text-align: justify;
+	margin-bottom: 30px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+	.hero-image {
+		height: 50vh;
+	}
+	.title {
+		font-size: 3rem;
+		margin: 30px 0;
+	}
+	.subtitle {
+		font-size: 1rem;
+		margin-bottom: 30px;
+	}
+	.text {
+		font-size: 0.8rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.hero-image {
+		height: 40vh;
+	}
+	.title {
+		font-size: 2rem;
+		margin: 20px 0;
+	}
+	.subtitle {
+		font-size: 0.8rem;
+		margin-bottom: 20px;
+	}
+	.text {
+		font-size: 0.6rem;
+	}
 }
