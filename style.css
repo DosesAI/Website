@@ -190,11 +190,21 @@ ul.seperator2 li:last-child::after {
 	}
 }
 
-#down {
-	margin-top: 100%;
-	padding-bottom: 25%;
-}
 
 html { 
 	scroll-behavior: smooth;
 }
+
+.waitlist {
+	display: block;
+	padding: 0.5rem 1rem;
+	color: black;
+	font-weight: 600;
+	text-decoration: none;
+	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  }
+  @media (prefers-reduced-motion: reduce) {
+	.waitlist {
+	  transition: none;
+	}
+  }
