@@ -1,49 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-	<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-	<link rel="manifest" href="/manifest.json">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-	<meta name="theme-color" content="#ffffff">
-	<meta charset="UTF-8">
-	<title>Doses AI</title>
-	<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Dots Globe Animation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #111;
+            overflow: hidden;
+            margin: 0;
+        }
+        .globe-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+        .dot {
+            position: absolute;
+            border-radius: 50%;
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 <body>
-	<div class="container" style="padding-bottom: 50px">
-		<header class="header" style="padding-left: 30px; padding-right: 30px">
-			
-			
-		</header>
-		<h1 style="padding-left: 15%; padding-right: 15%; padding-top: 20px;">Doses AI is currently under construction.</h1>
-	
-		
-	</div>
+    <div class="globe-container" id="globe"></div>
 
+    <script>
+        const globeContainer = document.getElementById('globe');
+        const NUM_DOTS = 100;
+        const RADIUS = 150;
 
-	<div class="container" style="padding-top: 80px" id="bottom">
+        function createDots() {
+            for (let i = 0; i < NUM_DOTS; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                dot.style.width = '8px';
+                dot.style.height = '8px';
+                globeContainer.appendChild(dot);
+            }
+        }
 
+        function updateDots() {
+            const dots = document.querySelectorAll('.dot');
+            const time = Date.now() * 0.002;
 
-			<!-- <div class="mb-2" style="color: black">OpenPIL CIC is maintained by Malik Ahmed © 2023. Email: malik@openpil.org</div>
-			<a style="color: black">Privacy Policy: This website is proudly hosted on </a><a href="https://github.com/" style="color: blue">Github</a><a style="color:black">; no site logs are kept, and no cookies are used. If you wish to use Github features, </a><a href="https://docs.github.com/en/github/site-policy/github-privacy-statement" style="color: blue">Github’s privacy policy</a><a style="color:black"> applies.</a> -->
+            dots.forEach((dot, index) => {
+                const angle = (index / NUM_DOTS) * Math.PI * 2;
+                const offset = Math.sin(time + angle) * RADIUS * 0.2;
+                const x = Math.cos(angle) * (RADIUS + offset);
+                const y = Math.sin(angle) * (RADIUS + offset);
+                const scale = 1.5 - (Math.abs(x) / RADIUS);
 
-		<p style="padding-bottom:10px; padding-left:20px; padding-right:20px; font-weight: 100; color: lightgray">© 2023 Doses AI Limited</p>
-		<p class="subtitle" style="padding-left:30px; padding-right:30px; font-weight: 100; color: lightgray">Privacy Policy: This website is proudly hosted on </a><a href="https://github.com/" style="color: lightblue; font-weight: 100;">Github</a><a style="font-weight: 100; color: lightgray">; no site logs are kept, and no cookies are used. If you wish to use Github features, </a><a href="https://docs.github.com/en/github/site-policy/github-privacy-statement" style="color: lightblue; font-weight: 100;">Github’s privacy policy</a><a style="font-weight: 100; color: lightgray"> applies.</a>
-		<!-- <p class="subtitle">Privacy Policy: This website is proudly hosted on Github; no site logs are kept, and no cookies are used. If you wish to use Github features, Github’s privacy policy applies.</p> -->
-		
-	</div>
+                dot.style.transform = `translate(${x + RADIUS}px, ${y + RADIUS}px) scale(${scale})`;
+                dot.style.opacity = scale * 0.8;
+            });
+        }
+
+        function animate() {
+            updateDots();
+            requestAnimationFrame(animate);
+        }
+
+        createDots();
+        animate();
+    </script>
 </body>
 </html>
