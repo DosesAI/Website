@@ -57,6 +57,25 @@
             }
         }
 
+        /* Apply mobile styles to extra-small devices too */
+        @media (max-width: 400px) {
+            html {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            html {
+                font-size: 9.5px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            html {
+                font-size: 9px;
+            }
+        }
+
         /* Media Queries - Additional Large Screen Handling */
         @media (min-width: 1601px) {
             .main-title {
@@ -77,7 +96,7 @@
             }
         }
         
-        /* Enhanced Mobile Experience */
+        /* Enhanced Mobile Experience - apply to all small screens */
         @media (max-width: 480px) {
             .typography-section {
                 padding: 5rem 5% 3rem 5%; /* Reduced padding on mobile */
@@ -130,7 +149,7 @@
             }
             
             .watch-video-container {
-                width: 100%;
+            width: 100%;
                 height: 40vh;
             }
             
@@ -165,10 +184,10 @@
             }
         }
         
-        /* Very Small Screens */
+        /* Very Small Screens - cascade properly to smallest sizes */
         @media (max-width: 360px) {
             html {
-                font-size: 10px;
+                font-size: 9.5px;
             }
             
             .spline-container {
@@ -182,12 +201,29 @@
             .text-line-1, .text-line-2, .text-line-3 {
                 font-size: clamp(1.8rem, 8vw, 5rem); /* Smaller text on very small screens */
             }
+
+            /* Ensure negative margins aren't too extreme on very small screens */
+            .awards-section {
+                margin-bottom: -32rem;
+            }
+            
+            .watch-section {
+                margin-top: -32rem;
+            }
+
+            .end-section {
+                margin-top: -22rem;
+            }
         }
         
-        /* Foldable Device Support */
+        /* Foldable Device Support - use min-width to prevent overrides */
         @media (max-width: 320px) {
+        html {
+                font-size: 9px;
+            }
+            
             .logo-container, .header-right {
-            justify-content: space-between;
+                justify-content: space-between;
                 width: 100%;
             }
             
@@ -197,6 +233,23 @@
             
             .menu-button {
                 margin-left: auto;
+            }
+
+            /* Add extra space reduction for extremely small screens */
+            .typography-section {
+                padding: 3.5rem 3% 1.5rem 3%;
+            }
+
+            .awards-section {
+                margin-bottom: -35rem;
+            }
+            
+            .watch-section {
+                margin-top: -35rem;
+            }
+
+            .end-section {
+                margin-top: -25rem;
             }
         }
 
@@ -211,7 +264,7 @@
         
         @media (max-width: 768px) {
             .watch-video-container {
-                width: 100%;
+            width: 100%;
                 height: clamp(250px, 40vh, 500px);
             }
         }
@@ -2407,6 +2460,40 @@
             }
         }
 
+        /* Additional adjustments for extra small devices */
+        @media (max-width: 400px) {
+            .video-stroke-container {
+                height: 12%;
+                transform: scale(0.35);
+            }
+        }
+
+        @media (max-width: 360px) {
+            .video-stroke-container {
+                height: 10%;
+                transform: scale(0.3);
+            }
+        }
+
+        /* Additional negative margin for mobile - ensure proper cascade */
+        @media (max-width: 480px) {
+            .end-section {
+                margin-top: -20rem; /* Even more extreme on small screens */
+            }
+        }
+
+        @media (max-width: 400px) {
+            .end-section {
+                margin-top: -22rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .end-section {
+                margin-top: -24rem;
+            }
+        }
+
         /* Hide the watch-additional-content section (second last section) */
         .watch-additional-content {
             display: none; /* Hide the entire section */
@@ -2418,31 +2505,51 @@
                 margin-top: -15rem; /* More extreme negative margin on mobile */
             }
         }
-        
-        @media (max-width: 480px) {
-            .end-section {
-                margin-top: -20rem; /* Even more extreme on small screens */
-            }
-        }
 
         /* Add button for force load */
         .force-load-button {
-            display: none;
-            padding: 10px 20px;
-            background-color: #ffffff;
-            color: #000000;
-            border: none;
-            border-radius: 4px;
+            display: none; /* Changed from block to none to hide the button */
+            padding: 15px 25px;
+            background-color: #000000;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 8px;
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 30px;
             transition: all 0.3s ease;
+            position: fixed; /* Position fixed to always be visible */
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999; /* Ensure it's above everything */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .force-load-button:hover {
-            background-color: #f0f0f0;
+            background-color: #ffffff;
+            color: #000000;
+            transform: translateY(-2px);
+        }
+        
+        /* Loading hint tooltip */
+        .loading-hint {
+            display: none; /* Hide the loading hint text */
+            position: fixed;
+            bottom: 65px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 9998;
+            max-width: 220px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -2454,6 +2561,9 @@
         </div>
         <div class="loading-progress">0%</div>
         <button id="force-load-button" class="force-load-button">Force Load</button>
+        <div class="loading-hint">
+            Click button, press 'F' key, or tap anywhere to force load if stuck
+        </div>
     </div>
 
         <!-- Fixed Navbar -->
@@ -2574,8 +2684,8 @@
                         C600,600 700,650 900,500 
                         C1100,350 1300,300 1500,200" />
                 </svg>
-            </div>
-            
+                </div>
+                
             <!-- Background with video on left, text on right -->
             <div class="watch-background">
                 <div class="watch-flex">
@@ -2597,7 +2707,7 @@
                         </h2>
                     </div>
                     </div>
-                    </div>
+            </div>
 
             <!-- Spline viewer container (overlay layer) -->
             <spline-viewer url="https://prod.spline.design/Gkd0KoA0MureJE4B/scene.splinecode" hide-attribution></spline-viewer>
@@ -2651,7 +2761,7 @@
                 </div>
             </div>
             </div>
-    
+            
     <!-- Loading Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -2660,49 +2770,63 @@
             const loadingBarFill = document.getElementById('loading-bar-fill');
             const forceLoadButton = document.getElementById('force-load-button');
             
+            // Add keyboard shortcut for force loading (press F key)
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'f' || event.key === 'F') {
+                    console.log("Force load triggered by keyboard");
+                    // Immediately hide loading screen
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(function() {
+                        loadingScreen.style.display = 'none';
+                    }, 100);
+                }
+            });
+            
+            // Allow clicking anywhere on loading screen to force load
+            loadingScreen.addEventListener('click', function() {
+                console.log("Force load triggered by click on loading screen");
+                // Immediately hide loading screen
+                loadingScreen.style.opacity = '0';
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                }, 100);
+            });
+            
+            // Automatically trigger force load after a short delay (1.5 seconds)
+            setTimeout(function() {
+                console.log("Force load automatically triggered");
+                // Immediately hide loading screen
+                loadingScreen.style.opacity = '0';
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                }, 100);
+            }, 1500);
+            
             // Track all important resources
             const splineViewers = document.querySelectorAll('spline-viewer');
             const images = document.querySelectorAll('img');
             const videos = document.querySelectorAll('video');
+            const iframes = document.querySelectorAll('iframe');
             
             const totalSplines = splineViewers.length;
             const totalImages = images.length;
             const totalVideos = videos.length;
+            const totalIframes = iframes.length;
             
-            const totalResources = totalSplines + totalImages + totalVideos;
+            const totalResources = totalSplines + totalImages + totalVideos + totalIframes;
             let loadedResources = 0;
             
             // Animation variables
             let displayedProgress = 0;
             let targetProgress = 0;
             let animationFrameId = null;
-            let progressStallTimer = null;
+            let lastProgressTime = Date.now();
             let lastProgressValue = 0;
+            let progressStallTimer = null;
             let stallDetected = false;
             
-            // Check if progress is stalled
-            function checkProgressStall() {
-                if (Math.abs(displayedProgress - lastProgressValue) < 1) {
-                    if (!stallDetected) {
-                        console.log("Loading appears to be stalled at " + Math.round(displayedProgress) + "%");
-                        stallDetected = true;
-                        forceLoadButton.style.display = 'block';
-                    }
-                } else {
-                    lastProgressValue = displayedProgress;
-                }
-            }
-            
-            // Set up progress stall detection
-            progressStallTimer = setInterval(checkProgressStall, 3000);
-            
-            // Force load button event
-            forceLoadButton.addEventListener('click', function() {
-                console.log("Force load triggered by user");
-                clearInterval(progressStallTimer);
-                loadedResources = totalResources;
-                hideLoadingScreen();
-            });
+            // Store all timeouts for cleanup
+            const timeouts = [];
             
             // Animate the progress value
             function animateProgress() {
@@ -2714,7 +2838,7 @@
                     displayedProgress += diff * 0.05; // Adjust speed by changing this multiplier
                 }
                 
-                // Update the display (hidden, but still update for tracking)
+                // Update the display
                 loadingProgress.textContent = `${Math.round(displayedProgress)}%`;
                 loadingBarFill.style.width = `${displayedProgress}%`;
                 
@@ -2738,11 +2862,9 @@
                 // Continue animation to 100% before hiding
                 targetProgress = 100;
                 
-                // Clear stall detection
-                if (progressStallTimer) {
-                    clearInterval(progressStallTimer);
-                    progressStallTimer = null;
-                }
+                // Clear all timers
+                clearInterval(progressStallTimer);
+                timeouts.forEach(id => clearTimeout(id));
                 
                 // Wait for animation to reach 100%
                 const checkProgress = () => {
@@ -2750,7 +2872,6 @@
                         // Cancel animation
                         if (animationFrameId) {
                             cancelAnimationFrame(animationFrameId);
-                            animationFrameId = null;
                         }
                         
                         // Hide loading screen
@@ -2767,31 +2888,77 @@
                 checkProgress();
             }
             
-            // Start progress animation
-            animateProgress();
-            
-            // Initial progress based on DOM content loaded
-            updateLoadingProgress(5);
+            // Check if progress is stalled
+            function checkProgressStall() {
+                const now = Date.now();
+                
+                // If progress hasn't changed in 3 seconds, force completion
+                if (Math.abs(displayedProgress - lastProgressValue) < 1) {
+                    if (!stallDetected && (now - lastProgressTime > 3000)) {
+                        console.log(`Loading stalled at ${Math.round(displayedProgress)}% - forcing completion`);
+                        stallDetected = true;
+                        forceLoadButton.style.display = 'block';
+                        
+                        // Auto-force load after stall detection
+                        loadedResources = totalResources;
+                        hideLoadingScreen();
+                    }
+                } else {
+                    // Progress is being made, update tracking values
+                    lastProgressValue = displayedProgress;
+                    lastProgressTime = now;
+                    stallDetected = false;
+                }
+            }
             
             // Track Spline viewers loading
-            splineViewers.forEach((spline) => {
+            splineViewers.forEach((spline, index) => {
+                // Add timeout for this spline
+                const timeoutId = setTimeout(() => {
+                    console.log(`Spline #${index} loading timed out`);
+                    if (loadedResources < totalResources) {
+                        loadedResources++;
+                        updateProgress();
+                    }
+                }, 7000); // 7 second max per spline
+                
+                timeouts.push(timeoutId);
+                
                 spline.addEventListener('load', () => {
+                    loadedResources++;
+                    updateProgress();
+                });
+                
+                spline.addEventListener('error', () => {
+                    console.log(`Spline #${index} failed to load`);
                     loadedResources++;
                     updateProgress();
                 });
             });
             
             // Track images loading
-            images.forEach((img) => {
+            images.forEach((img, index) => {
                 if (img.complete) {
                     loadedResources++;
                 } else {
+                    // Add timeout for this image
+                    const timeoutId = setTimeout(() => {
+                        console.log(`Image #${index} loading timed out`);
+                        if (loadedResources < totalResources) {
+                            loadedResources++;
+                            updateProgress();
+                        }
+                    }, 5000); // 5 second timeout for images
+                    
+                    timeouts.push(timeoutId);
+                    
                     img.addEventListener('load', () => {
                         loadedResources++;
                         updateProgress();
                     });
                     
                     img.addEventListener('error', () => {
+                        console.log(`Image #${index} failed to load`);
                         loadedResources++;
                         updateProgress();
                     });
@@ -2799,20 +2966,57 @@
             });
             
             // Track videos loading
-            videos.forEach((video) => {
-                if (video.readyState >= 2) { // HAVE_CURRENT_DATA or higher
+            videos.forEach((video, index) => {
+                if (video.readyState >= 2) {
                     loadedResources++;
                 } else {
+                    // Add timeout for this video
+                    const timeoutId = setTimeout(() => {
+                        console.log(`Video #${index} loading timed out`);
+                        if (loadedResources < totalResources) {
+                            loadedResources++;
+                            updateProgress();
+                        }
+                    }, 5000); // 5 second timeout for videos
+                    
+                    timeouts.push(timeoutId);
+                    
                     video.addEventListener('loadeddata', () => {
                         loadedResources++;
                         updateProgress();
                     });
                     
                     video.addEventListener('error', () => {
+                        console.log(`Video #${index} failed to load`);
                         loadedResources++;
                         updateProgress();
                     });
                 }
+            });
+            
+            // Track iframes loading
+            iframes.forEach((iframe, index) => {
+                // Add timeout for this iframe
+                const timeoutId = setTimeout(() => {
+                    console.log(`Iframe #${index} loading timed out`);
+                    if (loadedResources < totalResources) {
+                        loadedResources++;
+                        updateProgress();
+                    }
+                }, 5000); // 5 second timeout for iframes
+                
+                timeouts.push(timeoutId);
+                
+                iframe.addEventListener('load', () => {
+                    loadedResources++;
+                    updateProgress();
+                });
+                
+                iframe.addEventListener('error', () => {
+                    console.log(`Iframe #${index} failed to load`);
+                    loadedResources++;
+                    updateProgress();
+                });
             });
             
             // Update the overall progress
@@ -2829,38 +3033,54 @@
                 }
             }
             
+            // Force load button event
+            forceLoadButton.addEventListener('click', function(e) {
+                console.log("Force load triggered by user");
+                e.preventDefault(); // Prevent any default behavior
+                
+                // Stop all animations and timers immediately
+                if (progressStallTimer) {
+                    clearInterval(progressStallTimer);
+                }
+                
+                timeouts.forEach(id => clearTimeout(id));
+                
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+                
+                // Force hiding the loading screen directly without animations
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 100); // Faster transition
+                
+                // Log the action for debugging
+                console.log("Force load complete - loading screen hidden");
+            });
+            
+            // Start progress animation
+            animateProgress();
+            
+            // Initial progress based on DOM content loaded
+            updateLoadingProgress(5);
+            
             // Calculate initial progress for already loaded resources
             updateProgress();
             
-            // Fallback in case some resources fail to trigger load events
-            window.addEventListener('load', () => {
-                // Give a moment for any final resources to trigger their events
-                setTimeout(() => {
-                    // If we're still not at 100%, force completion
-                    if (loadedResources < totalResources) {
-                        console.log("Fallback: Some resources didn't trigger load events");
-                        loadedResources = totalResources;
-                        updateProgress();
-                    }
-                }, 2000);
-            });
+            // Check for stalls every 500ms
+            progressStallTimer = setInterval(checkProgressStall, 500);
             
-            // Additional earlier fallback for stalled loading
-            setTimeout(() => {
-                if (Math.abs(displayedProgress - lastProgressValue) < 2) {
-                    console.log("Loading stall detected at " + Math.round(displayedProgress) + "% - forcing progress");
-                    loadedResources = Math.ceil(totalResources * 0.8); // Push to 80%
-                    updateProgress();
-                }
-            }, 8000);
-            
-            // Additional final fallback after a maximum wait time
-            setTimeout(() => {
+            // Absolute maximum loading time - 10 seconds
+            const maxLoadTimeoutId = setTimeout(() => {
                 if (loadingScreen.style.display !== 'none') {
-                    console.log("Maximum wait time reached");
+                    console.log("Maximum loading time of 10 seconds reached");
+                    loadedResources = totalResources;
                     hideLoadingScreen();
                 }
-            }, 15000);
+            }, 10000);
+            
+            timeouts.push(maxLoadTimeoutId);
         });
     </script>
 
