@@ -195,7 +195,7 @@
             }
             
             .typography-section {
-                padding: 4rem 4% 2rem 4%;
+                padding: 0.25rem 3% 1.5rem 3%; /* Almost no top padding */
             }
             
             .text-line-1, .text-line-2, .text-line-3 {
@@ -1760,24 +1760,19 @@
 
         /* Watch section spline-viewer styles */
         .watch-section spline-viewer {
+            position: absolute;
             width: 100%;
             height: 100%;
-            position: absolute;
             top: 0;
             left: 0;
-            z-index: 2;
+            z-index: 3;
+            pointer-events: none; /* Prevent interaction with spline */
         }
         
+        /* Hide watch section spline on mobile screens */
         @media (max-width: 768px) {
             .watch-section spline-viewer {
-                transform: scale(1); /* Reduced from 0.9 to make it narrower */
-                max-width: 100vw;
-                overflow: hidden; /* Hide overflow */
-                transform-origin: center center; /* Center the scaling */
-            }
-            
-            .watch-section {
-                overflow: hidden; /* Ensure no overflow from the section */
+                display: none; /* Hide the spline animation on mobile */
             }
         }
         
@@ -2550,6 +2545,405 @@
             max-width: 220px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Mobile First Media Queries - structure to ensure proper cascading */
+        /* Base styles are for mobile first (smallest screens) */
+        
+        /* Extra small devices - Base mobile styles (under 480px) */
+        html {
+            font-size: 11px;
+        }
+        
+        /* Very small phones (under 400px) */
+        @media (max-width: 400px) {
+            html {
+                font-size: 10px;
+            }
+            
+            .end-section {
+                margin-top: -22rem;
+            }
+            
+            .video-stroke-container {
+                height: 12%;
+                transform: scale(0.35);
+            }
+            
+            .end-section spline-viewer {
+                transform: scale(2.0);
+            }
+        }
+        
+        /* Extra small phones (under 360px) */
+        @media (max-width: 360px) {
+            html {
+                font-size: 9.5px;
+            }
+            
+            .end-section {
+                margin-top: -24rem;
+            }
+            
+            .video-stroke-container {
+                height: 10%;
+                transform: scale(0.3);
+            }
+            
+            .end-section spline-viewer {
+                transform: scale(2.2);
+            }
+            
+            .spline-container {
+                margin-top: 4.5rem;
+            }
+            
+            .typography-section {
+                padding: 4rem 4% 2rem 4%;
+            }
+            
+            .text-line-1, .text-line-2, .text-line-3 {
+                font-size: clamp(1.8rem, 8vw, 5rem);
+            }
+            
+            .awards-section {
+                margin-bottom: -32rem;
+            }
+            
+            .watch-section {
+                margin-top: -32rem;
+            }
+        }
+        
+        /* Foldable/very small devices (under 320px) */
+        @media (max-width: 320px) {
+            html {
+                font-size: 9px;
+            }
+            
+            .logo-container, .header-right {
+                justify-content: space-between;
+                width: 100%;
+            }
+            
+            .logo-image {
+                height: 24px;
+            }
+            
+            .menu-button {
+                margin-left: auto;
+            }
+            
+            .typography-section {
+                padding: 1.5rem 3% 1.5rem 3%; /* Reduced top padding from 3.5rem to 1.5rem */
+            }
+            
+            .awards-section {
+                margin-bottom: -35rem;
+            }
+            
+            .watch-section {
+                margin-top: -35rem;
+            }
+            
+            .end-section {
+                margin-top: -25rem;
+            }
+            
+            .end-section spline-viewer {
+                transform: scale(2.4);
+            }
+        }
+        
+        /* Small devices (phones, 480px and up) */
+        @media (min-width: 480px) {
+            html {
+                font-size: 11px;
+            }
+            
+            .typography-section {
+                padding: 5rem 5% 3rem 5%;
+                gap: 3rem;
+            }
+            
+            .word-animate, .word-3d, .blur-animate, .letter-animate, 
+            .color-animate, .float-word, .fade-word, .metallic-silver {
+                padding: 0.15rem 0;
+                margin: 0 0.05rem;
+            }
+            
+            .spline-container,
+            .typography-robot-box,
+            .watch-video-container {
+                border-radius: 12px;
+            }
+            
+            .watch-section {
+                margin-top: -1rem;
+            }
+            
+            .awards-section {
+                margin-bottom: -30rem;
+            }
+            
+            .watch-section {
+                margin-top: -30rem;
+            }
+            
+            .video-stroke-container {
+                height: 15%;
+                transform: scale(0.4);
+            }
+            
+            .end-section {
+                margin-top: -20rem;
+            }
+            
+            .end-section spline-viewer {
+                transform: scale(1.8);
+            }
+        }
+        
+        /* Medium devices (tablets, 768px and up) */
+        @media (min-width: 768px) {
+            html {
+                font-size: 12px;
+            }
+            
+            .typography-section {
+                padding: 6rem 10% 4rem 10%;
+                gap: 4rem;
+            }
+            
+            .watch-video-container {
+                width: 100%;
+                height: clamp(250px, 40vh, 500px);
+            }
+            
+            .watch-section spline-viewer {
+                display: none; /* Hide the spline animation on mobile */
+            }
+            
+            .awards-section {
+                margin-bottom: -25rem;
+                padding-bottom: 0;
+            }
+            
+            .watch-section {
+                margin-top: -25rem;
+                padding-top: 0;
+                z-index: 4;
+            }
+            
+            .watch-additional-content {
+                margin-top: 0;
+            }
+            
+            .video-stroke-container {
+                height: 20%;
+                top: 5%;
+                transform: scale(0.5);
+            }
+            
+            .video-stroke {
+                height: 20%;
+            }
+            
+            .end-section {
+                margin-top: -15rem;
+            }
+            
+            .end-section spline-viewer {
+                transform: scale(1.6);
+            }
+            
+            .primary-image, .secondary-image {
+                position: relative;
+                margin: 0 auto;
+            }
+        }
+        
+        /* Large devices (desktops, 992px and up) */
+        @media (min-width: 992px) {
+            html {
+                font-size: 13px;
+            }
+            
+            .watch-section spline-viewer {
+                display: block; /* Show spline on larger screens */
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 3;
+                pointer-events: none;
+            }
+            
+            .watch-video-container {
+                width: 55%;
+                height: clamp(300px, 60vh, 800px);
+            }
+            
+            .end-section spline-viewer {
+                transform: scale(1.4);
+            }
+        }
+        
+        /* Extra large devices (large desktops, 1200px and up) */
+        @media (min-width: 1200px) {
+            html {
+                font-size: 14px;
+            }
+            
+            .end-section spline-viewer {
+                transform: scale(1.2);
+            }
+        }
+        
+        /* Extra extra large devices (1600px and up) */
+        @media (min-width: 1600px) {
+            html {
+                font-size: 15px;
+            }
+            
+            .main-title {
+                font-size: clamp(1.15rem, 1.8vw, 2rem);
+            }
+            
+            .watch-text .main-title {
+                font-size: clamp(1.15rem, 1.8vw, 2rem);
+            }
+            
+            .spline-container {
+                max-height: 80vh;
+            }
+            
+            .typography-robot-box,
+            .watch-video-container {
+                max-height: 65vh;
+            }
+        }
+
+        /* Extra small devices - Base mobile styles (under 480px) */
+        html {
+            font-size: 11px;
+        }
+        
+        /* Mobile-specific padding reductions */
+        .typography-section {
+            padding-top: 0.5rem; /* Drastically reduced top padding */
+        }
+        
+        .watch-section {
+            padding-top: 0rem !important; /* Force zero top padding on mobile with !important */
+        }
+        
+        /* Very small phones (under 400px) */
+        @media (max-width: 400px) {
+            html {
+                font-size: 10px;
+            }
+            
+            .end-section {
+                margin-top: -22rem;
+            }
+            
+            .video-stroke-container {
+                height: 12%;
+                transform: scale(0.35);
+            }
+            
+            .end-section spline-viewer {
+                transform: scale(2.0);
+            }
+        }
+        
+        /* Extra small phones (under 360px) */
+        @media (max-width: 360px) {
+            html {
+                font-size: 9.5px;
+            }
+            
+            .end-section {
+                margin-top: -24rem;
+            }
+            
+            .video-stroke-container {
+                height: 10%;
+                transform: scale(0.3);
+            }
+            
+            .end-section spline-viewer {
+                transform: scale(2.2);
+            }
+            
+            .spline-container {
+                margin-top: 4.5rem;
+            }
+            
+            .typography-section {
+                padding: 4rem 4% 2rem 4%;
+            }
+            
+            .text-line-1, .text-line-2, .text-line-3 {
+                font-size: clamp(1.8rem, 8vw, 5rem);
+            }
+            
+            .awards-section {
+                margin-bottom: -32rem;
+            }
+            
+            .watch-section {
+                margin-top: -32rem;
+            }
+        }
+        
+        /* Foldable/very small devices (under 320px) */
+        @media (max-width: 320px) {
+            html {
+                font-size: 9px;
+            }
+            
+            .logo-container, .header-right {
+                justify-content: space-between;
+                width: 100%;
+            }
+            
+            .logo-image {
+                height: 24px;
+            }
+            
+            .menu-button {
+                margin-left: auto;
+            }
+            
+            .typography-section {
+                padding: 1.5rem 3% 1.5rem 3%; /* Reduced top padding from 3.5rem to 1.5rem */
+            }
+            
+            .awards-section {
+                margin-bottom: -35rem;
+            }
+            
+            .watch-section {
+                margin-top: -35rem;
+            }
+            
+            .end-section {
+                margin-top: -25rem;
+            }
+            
+            .end-section spline-viewer {
+                transform: scale(2.4);
+            }
+        }
+
+        /* Medium devices (tablets, 768px and up) */
+        @media (min-width: 768px) {
+            .watch-section {
+                padding-top: 3rem; /* Restore padding for larger screens */
+            }
         }
     </style>
 </head>
