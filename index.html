@@ -1,0 +1,3062 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOSES AI</title>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.86/build/spline-viewer.js"></script>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            background-color: #EBEBED;
+            padding-top: 0; /* Remove top padding entirely */
+            font-size: 16px; /* Base font size for better scaling */
+        }
+        
+        @media (max-width: 1600px) {
+            html {
+                font-size: 15px;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            html {
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            html {
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            html {
+                font-size: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            html {
+                font-size: 11px;
+            }
+        }
+
+        /* Media Queries - Additional Large Screen Handling */
+        @media (min-width: 1601px) {
+            .main-title {
+                font-size: clamp(1.15rem, 1.8vw, 2rem); /* Better scaling for larger screens */
+            }
+            
+            .watch-text .main-title {
+                font-size: clamp(1.15rem, 1.8vw, 2rem);
+            }
+            
+            .spline-container {
+                max-height: 80vh; /* Prevent excessive height on large screens */
+            }
+            
+            .typography-robot-box,
+            .watch-video-container {
+                max-height: 65vh; /* Better proportions on larger screens */
+            }
+        }
+        
+        /* Enhanced Mobile Experience */
+        @media (max-width: 480px) {
+            .typography-section {
+                padding: 5rem 5% 3rem 5%; /* Reduced padding on mobile */
+                gap: 3rem; /* Less gap between elements */
+            }
+            
+            .word-animate, .word-3d, .blur-animate, .letter-animate, 
+            .color-animate, .float-word, .fade-word, .metallic-silver {
+                /* Enhance tap targets for mobile */
+                padding: 0.15rem 0;
+                margin: 0 0.05rem;
+            }
+            
+            .spline-container,
+            .typography-robot-box,
+            .watch-video-container {
+                border-radius: 12px; /* Slightly larger radius for mobile */
+            }
+            
+            .watch-section {
+                margin-top: -1rem; /* Less negative margin on mobile */
+            }
+        }
+        
+        /* Landscape Mode Optimization */
+        @media (max-height: 600px) and (max-width: 930px) {
+            .typography-section {
+                min-height: 180vh; /* Taller for landscape to accommodate content */
+            }
+            
+            .typography-robot-flex {
+            flex-direction: column;
+                gap: 2rem;
+        }
+        
+            .typography-robot-box {
+            width: 100%;
+                height: 50vh;
+                max-height: 50vh;
+            }
+            
+            .typography-robot-text {
+                width: 100%;
+                padding-right: 0;
+            }
+            
+            .watch-flex {
+            flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .watch-video-container {
+                width: 100%;
+                height: 40vh;
+            }
+            
+            .watch-text {
+                width: 100%;
+            }
+        }
+        
+        /* Touch Device Optimization */
+        @media (hover: none) {
+            .word-animate:hover, .word-3d:hover, .blur-animate:hover, 
+            .letter-animate:hover, .color-animate:hover, .float-word:hover, 
+            .fade-word:hover, .metallic-silver:hover {
+                transform: none !important; /* Disable hover effects on touch devices */
+                transition: none !important;
+            }
+            
+            .menu-button {
+                min-height: 24px; /* Larger tap target for mobile */
+                min-width: 24px;
+            }
+            
+            .menu-item {
+                padding: 12px 15px; /* Slightly larger padding for menu items */
+            }
+        }
+        
+        /* Higher Density Screens */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .logo-image {
+                image-rendering: -webkit-optimize-contrast; /* Sharper logo on high DPI screens */
+            }
+        }
+        
+        /* Very Small Screens */
+        @media (max-width: 360px) {
+            html {
+                font-size: 10px;
+            }
+            
+            .spline-container {
+                margin-top: 4.5rem;
+            }
+            
+            .typography-section {
+                padding: 4rem 4% 2rem 4%;
+            }
+            
+            .text-line-1, .text-line-2, .text-line-3 {
+                font-size: clamp(1.8rem, 8vw, 5rem); /* Smaller text on very small screens */
+            }
+        }
+        
+        /* Foldable Device Support */
+        @media (max-width: 320px) {
+            .logo-container, .header-right {
+            justify-content: space-between;
+                width: 100%;
+            }
+            
+            .logo-image {
+                height: 24px;
+            }
+            
+            .menu-button {
+                margin-left: auto;
+            }
+        }
+
+        /* Improved Watch Section Responsiveness */
+        .watch-video-container {
+            width: 55%;
+            height: clamp(300px, 60vh, 800px); /* More responsive height */
+            background-color: #000;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .watch-video-container {
+                width: 100%;
+                height: clamp(250px, 40vh, 500px);
+            }
+        }
+        
+        /* Fix for image responsiveness */
+        .awards-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            max-width: 1800px; /* Prevent excessive stretching on very wide screens */
+            margin: 0 auto;
+            padding-top: 4rem; /* Increased from 2.5rem to 4rem for more space above the image */
+        }
+        
+        /* Remove test content on production */
+        @media (min-width: 100px) {
+            .basic-test {
+                display: none;
+            }
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.8rem 4% 1.4rem 4%;
+            width: 100%;
+            background-color: transparent; /* Completely transparent */
+            backdrop-filter: none; /* Remove blur effect */
+            -webkit-backdrop-filter: none; /* Remove for Safari */
+            position: absolute; /* Change from fixed to absolute so it doesn't show over content */
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            height: auto;
+            transition: all 0.3s ease;
+            border-bottom: none; /* Remove bottom border */
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-image {
+            height: 38px;
+            width: auto;
+        }
+        
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #000;
+            text-decoration: none;
+        }
+        
+        .tagline {
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            max-width: 40%;
+        }
+        
+        .highlight {
+            font-weight: 700;
+        }
+        
+        .header-right {
+            display: flex;
+            position: relative;
+            align-items: center;
+        }
+        
+        /* Menu button styles */
+        .menu-button {
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            background-color: #888;
+            color: transparent;
+            display: block;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+        
+        .menu-button:hover {
+            background-color: #000;
+        }
+        
+        /* Hide the spans used for hamburger icon */
+        .menu-button span {
+            display: none;
+        }
+        
+        /* Show the menu dot */
+        .menu-dot {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        /* Active state styling (when menu is open) */
+        .menu-button.active {
+            background-color: #000;
+        }
+        
+        /* Menu dropdown styles */
+        .menu-dropdown {
+            position: absolute;
+            top: 25px; /* Adjusted to match original position */
+            right: 0;
+            width: 180px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            display: none;
+            z-index: 1000;
+        }
+        
+        /* Show menu when it has the active class */
+        .menu-dropdown.active {
+            display: block;
+        }
+        
+        .menu-item {
+            padding: 10px 15px;
+            font-size: 0.85rem;
+            color: #333;
+            text-decoration: none;
+            display: block;
+            transition: background 0.2s ease;
+        }
+        
+        .menu-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Section styles */
+        .section {
+            width: 100%;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .section-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem 4%;
+            width: 100%;
+        }
+        
+        .watch-section .section-content {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        
+        /* Main section styles */
+        .main-section {
+            width: 100%;
+            min-height: 120vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            margin-top: 0; /* Remove negative margin */
+            margin-bottom: 2rem;
+        }
+        
+        .main-section .section-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 0.6rem 4%;
+            width: 100%;
+            padding-bottom: 2rem;
+        }
+        
+        .spline-container {
+            width: 100%;
+            height: calc(100dvh - 180px); /* Reduced height by increasing subtracted value */
+            max-height: calc(100dvh - 180px); /* Matched to height property */
+            position: relative;
+            overflow: hidden;
+            background-color: #000;
+            border-radius: 20px;
+            display: flex;
+            margin: 0;
+            margin-top: 5.5rem; /* Increased top margin from 4rem to 5.5rem */
+        }
+        
+        .main-text {
+            width: 100%;
+            padding: 1.5rem 0 1.25rem 0; /* Reduced from 2.25rem 0 1.75rem 0 */
+            text-align: left;
+            margin-top: 0;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .watch-section .footer-icons {
+            pointer-events: none;
+            z-index: 30; /* Ensure it's above other elements */
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-bottom: 20vh; /* Add space to move it up from the very bottom */
+        }
+        
+        .watch-section .footer-text {
+            opacity: 1 !important; /* Force visibility */
+            pointer-events: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-align: center;
+            color: #333;
+            animation: none !important; /* Remove animation that might cause invisibility */
+            background-color: rgba(255, 255, 255, 0.8); /* Add background to increase visibility */
+            padding: 10px 20px;
+            border-radius: 5px;
+            max-width: 90%;
+            margin: 0 auto;
+            z-index: 50; /* Ensure highest z-index */
+            position: relative;
+        }
+        
+        /* Loading counter styles */
+        .loading-counter {
+            margin-top: 10px;
+            color: white;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 1200px) {
+            .tagline {
+                max-width: 50%;
+                font-size: 1rem;
+            }
+            
+            .spline-container {
+                height: calc(100dvh - 180px);
+                max-height: calc(100dvh - 180px);
+            }
+            
+            .main-section spline-viewer {
+                transform: scale(1.2);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .tagline {
+                max-width: 60%;
+                font-weight: 0.95rem;
+            }
+            
+            .spline-container {
+                height: calc(100dvh - 200px);
+                max-height: calc(100dvh - 200px);
+            }
+            
+            .main-section spline-viewer {
+                transform: scale(1.4);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            /* Original header styling is removed to prevent conflicts */
+            .header {
+                /* The following properties are managed in the "Header adjustments for mobile" section */
+                /* flex-direction: column; */
+                /* gap: 1rem; */
+                /* padding: 1rem 5%; */
+            }
+            
+            .tagline {
+                max-width: 100%;
+                text-align: center;
+                font-size: 0.9rem;
+            }
+            
+            .logo-container {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .header-right {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .section-content {
+                padding: 0.75rem 5%;
+            }
+            
+            .spline-container {
+                height: calc(100dvh - 220px);
+                max-height: calc(100dvh - 220px);
+                border-radius: 10px;
+            }
+            
+            .main-section spline-viewer {
+                transform: scale(1.6);
+            }
+            
+            .video-background {
+                flex-direction: column;
+                padding: 5% 5%;
+                gap: 1rem;
+            }
+            
+            .video-container {
+                width: 100%;
+                height: 40vh;
+            }
+            
+            .logo-image {
+                height: 36px; /* Increased from 28px for mobile */
+            }
+            
+            .logo {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 1.8rem 4% 1.4rem 4%; /* Keep consistent with desktop */
+            }
+            
+            .logo-image {
+                height: 28px;
+            }
+            
+            .logo {
+                font-size: 1rem;
+            }
+            
+            .tagline {
+                font-size: 0.85rem;
+            }
+            
+            .menu-button {
+                font-size: 0.9rem;
+                padding: 0 15px;
+                height: 28px;
+            }
+            
+            .section-content {
+                padding: 0.5rem 5%;
+            }
+            
+            .spline-container {
+                height: calc(100dvh - 240px);
+                max-height: calc(100dvh - 240px);
+                border-radius: 8px;
+            }
+            
+            .main-section spline-viewer {
+                transform: scale(1.8);
+            }
+            
+            .video-container {
+                height: 30vh;
+            }
+        }
+        
+        /* Landscape mode adjustments */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .header {
+                padding: 1.8rem 4% 1.4rem 4%; /* Match desktop padding */
+            }
+            
+            .section-content {
+                padding: 0.5rem 5%;
+            }
+            
+            .spline-container {
+                height: calc(100dvh - 160px);
+                max-height: calc(100dvh - 160px);
+            }
+            
+            .main-section spline-viewer {
+                transform: scale(1.4);
+            }
+            
+            .video-container {
+                height: 60vh;
+            }
+        }
+
+        /* Loading Screen Styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-bar-container {
+            width: 300px;
+            height: 4px;
+            background-color: #333;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #ffffff;
+            transition: width 0.3s ease-out;
+        }
+
+        .loading-progress {
+            display: none; /* Hide but keep in DOM for updates */
+        }
+
+        .loading-circle-container {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .loading-dot {
+            position: absolute;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            transition: transform 0.5s ease-out;
+        }
+
+        .loading-progress-container {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .loading-bar {
+            width: 150px;
+            height: 4px;
+            background-color: #333;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+
+        .loading-logo {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+        }
+
+        /* Typography Section Styles - make it bigger */
+        .typography-section {
+            width: 100%;
+            min-height: 120dvh; /* Reduced from 140dvh to make section more compact */
+            background-color: #EBEBED;
+            display: flex;
+            flex-direction: column; /* Change to column layout */
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 7.5rem 5% 0 5%; /* Bottom padding already removed */
+            margin-top: -10rem;
+            gap: 3rem; /* Reduced from 5rem to bring elements closer together */
+        }
+
+        .text-animation-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 1rem;
+            width: 100%;
+            padding-top: 0;
+            transform: translateY(-2rem); /* Move text up slightly */
+        }
+        
+        .text-line-wrapper {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .text-line-1 {
+            font-size: clamp(2.2rem, 8vw, 6.5rem); /* Reduced font size */
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            transition-delay: 0.1s;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .text-line-2 {
+            font-size: clamp(2.2rem, 8vw, 6.5rem); /* Reduced font size */
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            transition-delay: 0.4s;
+            opacity: 0;
+            transform: translateY(100px);
+        }
+            
+        .text-line-3 {
+            font-size: clamp(2.2rem, 8vw, 6.5rem); /* Reduced font size */
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            transition-delay: 0.7s;
+            background: linear-gradient(
+                60deg,
+                #7CC2FF 0%,    /* Light blue */
+                #1E3A8A 20%,   /* Navy */
+                #B5A6C9 40%,   /* Lilac */
+                #FF69B4 60%,   /* Pink */
+                #FF9966 80%    /* Sorbet orange */
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .animated-text {
+            color: #1a2b22;
+            text-align: left;
+            transform-origin: left center;
+            font-feature-settings: "ss01", "ss02", "ss03";
+            line-height: 0.9;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+
+        .animated-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .curved-line {
+            position: absolute;
+            top: 0;
+            left: -10px;
+            width: calc(100% + 20px);
+            height: 200px; /* Increased height for the loop */
+            z-index: -1;
+            pointer-events: none;
+            }
+            
+        .curved-line path {
+            stroke: #0066FF;
+            stroke-width: 30px;
+            fill: none;
+            stroke-linecap: round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            
+        .text-line-1.visible .curved-line path {
+            stroke-dashoffset: 0;
+        }
+            
+        .text-line-2.visible .curved-line path {
+            stroke-dashoffset: 0;
+            }
+            
+        .text-line-3.visible .curved-line path {
+            stroke-dashoffset: 0;
+        }
+
+        /* Scroll Animation Styles */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+            }
+            
+        /* Update section styles */
+        .robot-section {
+            width: 100%;
+            min-height: 65dvh;
+            background-color: #EBEBED;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 0;
+            padding-bottom: 1rem;
+            padding-left: 5%;
+            padding-right: 5%;
+            margin-top: -5rem;
+        }
+
+        .robot-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-self: center;
+            margin-right: 5%;
+            padding-left: 5%;
+            text-align: left;
+        }
+
+        .robot-text .main-title {
+            font-weight: normal;
+            text-align: left;
+            padding-left: 0;
+        }
+
+        .robot-title {
+            font-size: clamp(1.1rem, 2vw, 1.6rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: #1a2b22;
+            }
+            
+        .robot-description {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.6;
+            font-weight: 400;
+            color: #555;
+            max-width: 90%;
+        }
+
+        .robot-container {
+            width: 50%;
+            height: calc(100dvh - 180px);
+            max-height: calc(100dvh - 180px);
+            position: relative;
+            overflow: hidden;
+            background-color: #000;
+            border-radius: 20px;
+            display: flex;
+            margin-top: 0;
+        }
+        
+        .short-section {
+            width: 100%;
+            min-height: 50dvh;
+            background-color: #EBEBED;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem 5%;
+        }
+
+        .short-container {
+            width: 40%;
+            height: calc((100dvh - 180px) / 2);
+            max-height: calc((100dvh - 180px) / 2);
+            position: relative;
+            overflow: hidden;
+            background-color: #000;
+            border-radius: 20px;
+            display: flex;
+        }
+
+        .short-text {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .short-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: #1a2b22;
+        }
+
+        .short-description {
+            font-size: clamp(1rem, 1.5vw, 1.1rem);
+            line-height: 1.6;
+            font-weight: 400;
+            color: #555;
+            max-width: 90%;
+        }
+
+        @media (max-width: 768px) {
+            .short-section {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .short-container, 
+            .short-text {
+            width: 100%;
+            }
+            
+            .short-container {
+                height: calc((100dvh - 220px) / 2);
+                max-height: calc((100dvh - 220px) / 2);
+            }
+            
+            .short-description {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .short-container {
+                height: calc((100dvh - 240px) / 2);
+                max-height: calc((100dvh - 240px) / 2);
+                border-radius: 8px;
+            }
+        }
+
+        /* Add test section styles */
+        .test-section {
+            width: 100%;
+            min-height: 50dvh;
+            background-color: #EBEBED;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem 5%;
+            margin: 3rem 0;
+            }
+            
+        .test-box {
+            width: 40%;
+            height: 300px;
+            background-color: #000;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .test-text {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .test-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: #1a2b22;
+        }
+
+        .test-description {
+            font-size: clamp(1rem, 1.5vw, 1.1rem);
+            line-height: 1.6;
+            font-weight: 400;
+            color: #555;
+            max-width: 90%;
+        }
+
+        @media (max-width: 768px) {
+            .test-section {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .test-box, 
+            .test-text {
+                width: 100%;
+            }
+            
+            .test-description {
+                max-width: 100%;
+            }
+        }
+
+        /* Add very basic test styles */
+        .basic-test {
+            width: 100%;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid red;
+        }
+
+        .basic-flex {
+            display: flex;
+                flex-direction: row;
+            border: 2px solid blue;
+        }
+
+        .basic-box {
+            width: 200px;
+            height: 200px;
+            background-color: black;
+            margin-right: 20px;
+        }
+
+        .basic-text {
+            flex: 1;
+            border: 2px solid green;
+        }
+
+        /* Update robot section styles */
+        .robot-flex {
+            display: flex;
+                flex-direction: row;
+            width: 100%;
+            padding: 7rem 5% 2rem 5%;
+            margin-top: -3rem;
+        }
+
+        .robot-box {
+            width: 50%;
+            height: calc(100dvh - 180px);
+            max-height: calc(100dvh - 180px);
+            background-color: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 5rem;
+            padding-top: 3rem;
+        }
+        
+        /* Update short section styles using the basic layout approach */
+        .short-flex {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            padding: 2rem 5%;
+            margin: 2rem 0;
+        }
+
+        .short-box {
+            width: 40%;
+            height: calc((100dvh - 180px) / 2);
+            max-height: calc((100dvh - 180px) / 2);
+            background-color: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-right: 5%;
+        }
+
+        .short-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-self: center;
+        }
+
+        /* Shared text styles */
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: #1a2b22;
+        }
+
+        .section-description {
+            font-size: clamp(1rem, 1.5vw, 1.1rem);
+            line-height: 1.6;
+            font-weight: 400;
+            color: #555;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .robot-flex, .short-flex {
+                flex-direction: column;
+            }
+            
+            .robot-box, .short-box {
+            width: 100%;
+                margin-right: 0;
+                margin-bottom: 2rem;
+            }
+            
+            .robot-box {
+                height: calc(100dvh - 220px);
+                max-height: calc(100dvh - 220px);
+            }
+            
+            .short-box {
+                height: calc((100dvh - 220px) / 2);
+                max-height: calc((100dvh - 220px) / 2);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .robot-box {
+                height: calc(100dvh - 240px);
+                max-height: calc(100dvh - 240px);
+                border-radius: 8px;
+            }
+            
+            .short-box {
+                height: calc((100dvh - 240px) / 2);
+                max-height: calc((100dvh - 240px) / 2);
+                border-radius: 8px;
+            }
+        }
+
+        /* Add styles for main section text */
+        .main-section .section-content {
+            display: flex;
+                flex-direction: column;
+            width: 100%;
+        }
+
+        .main-title {
+            font-size: clamp(1.15rem, 2.1vw, 1.75rem); /* Increased from 0.95rem, 1.7vw, 1.4rem */
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: #1a2b22;
+            text-align: left;
+            max-width: 100%;
+        }
+
+        .main-title b {
+            font-weight: 900;
+        }
+
+        .robot-text .main-title {
+            padding-left: 0;
+            margin-left: 0;
+        }
+
+        .main-description {
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #555;
+        }
+
+        /* Add styles for thin and heavy text */
+        .text-thin {
+            font-weight: 300;
+        }
+
+        .text-ultra-thin {
+            font-weight: 100; /* Ultra thin weight */
+            font-size: 0.8em; /* Increased from 0.65em */
+            letter-spacing: 0.02em;
+            opacity: 0.85;
+            display: inline; /* Changed from block to inline */
+            margin-left: 0.5rem; /* Add space between main text and founder text */
+            margin-top: 0; /* Remove top margin */
+        }
+
+        .text-heavy {
+            font-weight: 800;
+        }
+
+        /* Add metallic silver style */
+        .metallic-silver {
+            background: linear-gradient(
+                135deg,
+                #f0f0f0 0%,
+                #c0c0c0 20%,
+                #f0f0f0 40%,
+                #e0e0e0 50%,
+                #a0a0a0 60%,
+                #d0d0d0 80%,
+                #f0f0f0 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 0px 2px rgba(150, 150, 150, 0.2);
+            position: relative;
+            display: inline-block;
+        }
+
+        .metallic-silver::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0.7) 25%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            mix-blend-mode: overlay;
+            z-index: 1;
+        }
+
+        /* Add styles for vertical timeline section */
+        .timeline-section {
+            display: none;
+        }
+        
+        /* Add arrow animation styles */
+        .scroll-prompt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: -0.2rem;
+        }
+
+        .scroll-text {
+            font-weight: 200;
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 0.05rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+        
+        .scroll-arrow {
+            width: 20px;
+            height: 20px;
+            border: solid #1a2b22;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            margin-top: 0.05rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) rotate(45deg);
+            }
+            40% {
+                transform: translateY(-10px) rotate(45deg);
+            }
+            60% {
+                transform: translateY(-5px) rotate(45deg);
+            }
+        }
+
+        /* New CSS style for the English-style font */
+        .english-font {
+            font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        /* Word animation styles - slow down transitions further */
+        .word-animate {
+            display: inline-block;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* Reduced from 0.6s to 0.3s */
+        }
+
+        .word-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Unified hover effect for all animated words */
+        .word-animate:hover, .word-3d:hover, .blur-animate:hover, .letter-animate:hover, .color-animate:hover, .float-word:hover, .fade-word:hover, .metallic-silver:hover {
+            transform: scale(1.1) !important;
+            cursor: default;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+
+        .highlight-word {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Remove the underline effect */
+        .highlight-word::after {
+            content: none;
+        }
+
+        .fade-word {
+            opacity: 0;
+            transition: opacity 0.375s ease, transform 0.375s cubic-bezier(0.34, 1.56, 0.64, 1); /* Reduced from 0.75s to 0.375s */
+            transform: scale(0.9) translateY(15px);
+        }
+
+        .fade-word.visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .float-word {
+            animation: float 4s ease-in-out infinite;
+            animation-play-state: paused;
+            transition: all 0.3s ease;
+        }
+
+        .float-word.visible {
+            animation-play-state: running;
+            text-shadow: none; /* Remove glow effect */
+        }
+
+        .float-word:hover {
+            text-shadow: none; /* Remove glow effect on hover */
+        }
+
+        /* Letter animation */
+        .letter-animate {
+            display: inline-block;
+                position: relative;
+        }
+
+        .letter {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(40px) rotate(10deg);
+            transition: opacity 0.075s ease, transform 0.125s cubic-bezier(0.34, 1.56, 0.64, 1); /* Reduced from 0.15s and 0.25s to 0.075s and 0.125s */
+            transition-delay: calc(var(--index) * 0.04s);
+        }
+
+        .letter.visible {
+            opacity: 1;
+            transform: translateY(0) rotate(0deg);
+        }
+
+        /* 3D animation */
+        .word-3d {
+            display: inline-block;
+            position: relative;
+            transform: perspective(500px) rotateX(30deg);
+            transform-origin: bottom center;
+            opacity: 0;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.125s ease; /* Reduced from 0.5s and 0.25s to 0.25s and 0.125s */
+        }
+
+        .word-3d.visible {
+            transform: perspective(500px) rotateX(0deg);
+            opacity: 1;
+        }
+
+        .word-3d:hover {
+            transform: perspective(500px) rotateX(-5deg) scale(1.05);
+        }
+
+        /* Color transition */
+        .color-animate {
+            display: inline-block;
+            position: relative;
+            background-size: 200% 100%;
+            background-position: 100% 0;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
+            transition: background-position 0.25s ease; /* Reduced from 0.5s to 0.25s */
+            background-image: linear-gradient(
+                90deg,
+                #7CC2FF 0%,
+                #FF69B4 50%,
+                #7CC2FF 100%
+            );
+        }
+
+        .color-animate.visible {
+            background-position: 0% 0;
+            animation: colorShift 5s infinite alternate;
+        }
+
+        @keyframes colorShift {
+            0% { background-position: 0% 0; }
+            100% { background-position: 100% 0; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Blur effect */
+        .blur-animate {
+            display: inline-block;
+            filter: blur(10px);
+            opacity: 0;
+            transform: scale(1.2);
+            transition: filter 0.2s ease, opacity 0.2s ease, transform 0.2s ease; /* Reduced from 0.4s to 0.2s */
+        }
+
+        .blur-animate.visible {
+            filter: blur(0);
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Override for HARLEY STREET to make it dark again on light background */
+        .text-line-3 .english-font {
+            background: none;
+            -webkit-text-fill-color: initial;
+            color: #1a2b22; /* Changed from black to site's dark color */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .text-line-3 .english-font.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Add background stroke animation */
+        .background-stroke-container {
+            position: absolute;
+                top: 0;
+            left: 0;
+            width: 160%; /* Increased from 140% to extend further */
+            height: 200%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        .background-stroke {
+            position: absolute;
+            top: 0;
+            left: -40%; /* Adjusted from -60% to position better */
+            width: 160%; /* Increased from 140% */
+            height: 100%;
+            stroke: url(#strokeGradient); /* Use the gradient defined in the SVG */
+            stroke-width: 25px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            z-index: -1;
+        }
+
+        .stroke-path {
+            stroke-dasharray: 4000;
+            stroke-dashoffset: 4000;
+            transition: stroke-dashoffset 4s cubic-bezier(0.22, 1, 0.36, 1);
+            animation: none; /* Remove infinite animation */
+        }
+
+        /* When visible, show the stroke */
+        .visible-stroke .stroke-path {
+            stroke-dashoffset: 0;
+        }
+
+        /* Make typography section match the rest of the website */
+        .typography-section {
+            background-color: #EBEBED;
+        }
+
+        .typography-section .text-thin,
+        .typography-section .text-heavy {
+            color: #1a2b22; /* Change back to dark color for light background */
+        }
+
+        /* Ensure content appears above the stroke */
+        .text-animation-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Robot flex container inside typography section */
+        .typography-robot-flex {
+            display: flex;
+            width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+            align-items: center;
+            padding: 0;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Robot text inside typography section */
+        .typography-robot-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding-right: 5%;
+            text-align: left;
+        }
+
+        /* Robot spline box inside typography section */
+        .typography-robot-box {
+            width: 50%;
+            height: calc(100dvh - 180px);
+            max-height: calc(100dvh - 180px);
+            background-color: #000;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .typography-section {
+                min-height: 200dvh; /* Even taller on mobile */
+            }
+            
+            .typography-robot-flex {
+                flex-direction: column;
+                gap: 3rem;
+            }
+            
+            .typography-robot-text, 
+            .typography-robot-box {
+            width: 100%;
+                padding-right: 0;
+            }
+            }
+            
+        /* Add styles for the updated watch section */
+        .watch-section {
+            position: relative;
+            width: 100%;
+            min-height: 90vh; /* Reduced from 100vh */
+            overflow: hidden;
+            margin-top: -2rem; /* Keep existing negative margin */
+            z-index: 3; /* Increased to ensure proper stacking */
+        }
+
+        .watch-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            padding: 0rem 4%; /* Removed vertical padding completely */
+        }
+
+        .watch-flex {
+            display: flex;
+            width: 100%;
+            height: 100%;
+                align-items: center;
+                justify-content: space-between;
+            gap: 5%;
+            }
+            
+        .watch-video-container video {
+                width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .watch-text {
+            width: 40%; /* Decreased from 45% to maintain spacing */
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .watch-text .main-title {
+            font-size: clamp(1.15rem, 2.1vw, 1.75rem); /* Increased from 0.95rem, 1.7vw, 1.4rem */
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: #1a2b22;
+            text-align: left;
+            max-width: 100%;
+        }
+
+        .watch-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .watch-container spline-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .watch-flex {
+                flex-direction: column;
+                padding-top: 1vh; /* Further reduced from 5vh to almost eliminate spacing */
+                justify-content: flex-start;
+            }
+            
+            .watch-video-container, 
+            .watch-text {
+                width: 100%;
+            }
+            
+            .watch-video-container {
+                height: 40vh;
+                margin-bottom: 1rem;
+            }
+            
+            .watch-text {
+                padding-top: 0;
+                margin-top: 0;
+            }
+        }
+        
+        /* Further reduce spacing on smallest screens */
+        @media (max-width: 480px) {
+            .watch-flex {
+                padding-top: 0; /* Completely removed padding on smallest screens */
+            }
+            
+            .watch-video-container {
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Add styles for the app store awards section */
+        .awards-section {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin-top: 0; /* Reduced from 2rem */
+            margin-bottom: 0; /* Already at 0 */
+            position: relative;
+            z-index: 2;
+            background-color: transparent;
+        }
+        
+        .awards-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .awards-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            max-width: 1800px; /* Prevent excessive stretching on very wide screens */
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .awards-image {
+                width: 100%;
+            }
+        }
+
+        /* Watch section spline-viewer styles */
+        .watch-section spline-viewer {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+        
+        @media (max-width: 768px) {
+            .watch-section spline-viewer {
+                transform: scale(1); /* Reduced from 0.9 to make it narrower */
+                max-width: 100vw;
+                overflow: hidden; /* Hide overflow */
+                transform-origin: center center; /* Center the scaling */
+            }
+            
+            .watch-section {
+                overflow: hidden; /* Ensure no overflow from the section */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .watch-section spline-viewer {
+                transform: scale(0.6); /* Reduced from 0.8 to make it even narrower on mobile */
+                transform-origin: center center;
+            }
+        }
+
+        /* Additional images section in watch section */
+        .watch-additional-content {
+            width: 100%;
+            padding: 0 4%;
+            margin-top: 0; /* Removed margin-top completely */
+            position: relative;
+            z-index: 4; /* Increased from 3 to ensure it's above watch section */
+            transform: translateY(-3vh); /* Use transform instead of margin to move content up */
+            overflow: visible; /* Ensure overflow is visible */
+        }
+        
+        .additional-content-row {
+            display: flex;
+            width: 100%;
+            margin: 2rem 0; /* Reduced from 4rem 0 */
+            align-items: flex-start; /* Change from center to flex-start to align items at the top */
+            gap: 5%;
+            position: relative; /* Add relative positioning to contain the absolute SVG */
+            min-height: 600px; /* Add minimum height to ensure the SVG has room to display */
+            overflow: visible; /* Allow the SVG to extend beyond */
+            flex-direction: row-reverse; /* Reverse the order to put images on left, text on right */
+        }
+        
+        .additional-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 40%;
+            margin-right: 0; /* Remove any right margin */
+            margin-left: auto; /* Push to the right side */
+        }
+        
+        .image-container {
+            width: 55%;
+            position: relative;
+            height: auto;
+            min-height: 500px; /* Increased from 400px to allow for larger images */
+            padding-left: 0; /* Removed left padding to allow images to take up more space */
+            padding-right: 5%; /* Reduced right padding */
+            overflow: visible; /* Ensure the SVG can extend beyond */
+        }
+        
+        .primary-image {
+            width: 100%;
+            height: auto;
+            background-color: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+            margin-right: 0; /* Removed margin to use full width */
+            padding-right: 0; /* Removed padding */
+        }
+        
+        .secondary-image {
+            width: 60%; /* Increased from 50% to make the small photo wider */
+            height: auto;
+            background-color: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            position: absolute;
+            bottom: -5%; /* Changed from -10% to -5% to move the image up */
+            right: 2%; /* Changed from 5% to 2% to better align with the website frame */
+            aspect-ratio: 16/9; /* Changed from 1/1 (square) to 16/9 (wider rectangle) */
+            z-index: 1;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .primary-image img,
+        .secondary-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        @media (max-width: 768px) {
+            .additional-content-row {
+                flex-direction: column; /* Changed from column-reverse to column */
+            }
+            
+            .additional-text, .meta-winner-logo {
+                width: 100%;
+                margin-left: 0; /* Reset alignment for mobile */
+                order: -1; /* Force the text/logo to appear first regardless of DOM order */
+            }
+            
+            .meta-winner-logo {
+                margin-bottom: 2rem; /* Add space below the spline viewer */
+            }
+            
+            .image-container {
+                width: 100%;
+                margin-top: 1rem; /* Add space above the images */
+            }
+            
+            .secondary-image {
+                width: 40%;
+                bottom: -5%;
+                right: 0; /* Keep aligned with edge on mobile */
+            }
+            
+            .watch-additional-content {
+                margin-top: 4vh;
+            }
+        }
+
+        /* Add Video Section SVG Path Animation Styles */
+        .video-stroke-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Lower z-index to be in the background */
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        /* Video stroke styles enhancement */
+        .video-stroke {
+            position: absolute;
+            top: 10%;
+            left: 0;
+            width: 100%;
+            height: 80%;
+            stroke: url(#videoStrokeGradient);
+            stroke-width: 60px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.5)); /* Reduce glow effect */
+            fill: none;
+            z-index: 0; /* Keep in background */
+            opacity: 0.7; /* Lower opacity to be more subtle in background */
+        }
+
+        .video-path {
+            stroke-dasharray: 4000;
+            stroke-dashoffset: 4000;
+            transition: stroke-dashoffset 5s cubic-bezier(0.22, 1, 0.36, 1); /* Increased from 4s to 5s */
+            animation: none; /* Remove auto animation */
+        }
+
+        /* When visible, show the stroke */
+        .visible-video-stroke .video-path {
+            stroke-dashoffset: 0;
+            animation: pulse-stroke 8s ease-in-out 5s infinite alternate; /* Increased from 6s to 8s, delay from 4s to 5s */
+        }
+
+        /* Add initial draw animation */
+        @keyframes stroke-draw {
+            0% { stroke-dashoffset: 4000; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        /* Enhanced pulse animation */
+        @keyframes pulse-stroke {
+            0% { stroke-width: 60px; stroke-opacity: 0.8; filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.6)); }
+            100% { stroke-width: 75px; stroke-opacity: 1; filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.9)); }
+        }
+
+        /* Media Queries - Large Screen Handling */
+        @media (min-width: 1601px) {
+            .main-title {
+                font-size: clamp(1.15rem, 1.8vw, 2rem); /* Better scaling for larger screens */
+            }
+            
+            .watch-text .main-title {
+                font-size: clamp(1.15rem, 1.8vw, 2rem);
+            }
+            
+            .spline-container {
+                max-height: 80vh; /* Prevent excessive height on large screens */
+            }
+            
+            .typography-robot-box,
+            .watch-video-container {
+                max-height: 65vh; /* Better proportions on larger screens */
+            }
+        }
+
+        /* Add a new vertical SVG path animation for the image section */
+        .image-section-animation {
+                position: relative;
+            z-index: 3;
+        }
+
+        /* Add Image Section SVG Path Animation Styles - fix visibility issues */
+        .vertical-stroke-container {
+            display: none; /* Hide the vertical stroke completely */
+            position: absolute;
+                top: 0;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        /* Update the stroke style to match other animations */
+        .vertical-stroke {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200%; /* Match container height */
+            stroke: url(#verticalStrokeGradient);
+            stroke-width: 60px; /* Match the video section stroke */
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 20px rgba(102, 51, 255, 0.5)); /* Match other sections */
+            fill: none;
+            z-index: -1;
+            opacity: 0.7; /* Match other sections */
+        }
+
+        .vertical-path {
+            stroke-dasharray: 4000;
+            stroke-dashoffset: 4000;
+            transition: stroke-dashoffset 5s cubic-bezier(0.22, 1, 0.36, 1);
+            animation: none; /* Remove auto animation */
+        }
+
+        /* When visible, show the stroke */
+        .visible-vertical-stroke .vertical-path {
+            stroke-dashoffset: 0;
+            animation: pulse-vertical-stroke 8s ease-in-out 5s infinite alternate;
+        }
+
+        /* Enhanced pulse animation for vertical path */
+        @keyframes pulse-vertical-stroke {
+            0% { stroke-width: 50px; stroke-opacity: 0.6; filter: drop-shadow(0 0 15px rgba(102, 51, 255, 0.4)); }
+            100% { stroke-width: 65px; stroke-opacity: 0.8; filter: drop-shadow(0 0 25px rgba(102, 51, 255, 0.7)); }
+        }
+
+        /* Fix conflicting rules to make the stroke container full width and height */
+        .vertical-stroke-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        /* Update the stroke style to match other animations */
+        .vertical-stroke {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            stroke: url(#verticalStrokeGradient);
+            stroke-width: 60px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 20px rgba(102, 51, 255, 0.5));
+            fill: none;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        /* Remove the duplicate, conflicting rule that's overriding the intended styles */
+        /* Reposition vertical stroke container for better visibility */
+        /* .vertical-stroke-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 140%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: visible;
+        } */
+
+        .end-section {
+            position: relative;
+            width: 100%;
+            min-height: 100vh; /* Full viewport height */
+            background-color: #EBEBED; /* Match the rest of the website background */
+            overflow: hidden;
+            margin-top: -5rem; /* Add negative margin to pull it up */
+        }
+        
+        .end-section spline-viewer {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .copyright {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            color: black;
+            font-size: 0.85rem;
+            font-weight: 400;
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            .copyright {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Remove the text-spline-container styles */
+        .text-spline-container {
+            display: none;
+        }
+        
+        /* Add direct styling for the spline-viewer in additional-text */
+        .additional-text spline-viewer {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        /* Adjust for mobile */
+        @media (max-width: 768px) {
+            .additional-text spline-viewer {
+                height: 200px;
+            }
+        }
+
+        /* Add new CSS for the Meta Llama Winner Logo and text layout */
+        .meta-winner-logo {
+            width: 300px; /* Increased from 250px */
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align to the left within its container */
+            margin-left: auto; /* Push to the right side */
+            margin-right: 0; /* Remove any right margin */
+        }
+        
+        .meta-winner-logo img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .meta-text-block {
+            font-size: clamp(1.15rem, 2.1vw, 1.75rem); /* Updated to match the typography robot section's main-title */
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin-bottom: 1.5rem;
+            color: #1a2b22;
+        }
+        
+        .additional-content-row {
+            display: flex;
+            width: 100%;
+            margin: 2rem 0;
+            align-items: flex-start;
+            gap: 5%;
+            position: relative;
+            min-height: 600px;
+            overflow: visible;
+        }
+        
+        .additional-text {
+            display: flex;
+                flex-direction: column;
+            align-items: flex-start;
+            width: 40%;
+        }
+        
+        @media (max-width: 768px) {
+            .meta-text-block {
+                font-size: clamp(1rem, 1.8vw, 1.5rem); /* Updated for better scaling on mobile */
+            }
+            
+            .additional-text {
+                width: 100%;
+            }
+        }
+
+        .meta-winner-logo spline-viewer {
+            width: 100%;
+            height: 300px; /* Increased from 250px */
+            overflow: hidden;
+        }
+
+        /* Styles for the end section text overlay */
+        .end-section-text-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            z-index: 0; /* 0 instead of -1 to be at base level */
+            pointer-events: none;
+            user-select: none;
+            text-align: center;
+        }
+
+        .end-section-text {
+            font-size: 12vw;
+            font-weight: 900;
+            color: rgba(0, 0, 0, 0.85); /* Keep dark color */
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+            white-space: nowrap;
+            width: 100%;
+            text-align: center;
+        }
+
+        .end-section-email {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.7); /* Match main text dark color */
+            margin-top: 0.5rem;
+            align-self: flex-start;
+            margin-left: calc(50% - 6vw);
+        }
+
+        /* Make spline viewer semitransparent so text can be seen through it */
+        .end-section spline-viewer {
+            position: relative;
+            z-index: 1;
+            opacity: 0.85; /* Make slightly transparent */
+        }
+
+        @media (max-width: 768px) {
+            .end-section-text {
+                font-size: 14vw; /* Reduced from 20vw */
+            }
+            
+            .end-section-email {
+                font-size: 1.2rem; /* Reduced from 1.5rem */
+                margin-left: calc(50% - 7vw);
+            }
+        }
+
+        /* Ensure spline viewer is above the text */
+        .end-section spline-viewer {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Mobile Fine-Tuning: improve layout, sizing, and spacing */
+        @media (max-width: 768px) {
+            /* Loading screen adjustments */
+            .loading-circle-container { width: 200px; height: 200px; }
+            .loading-text { font-size: 0.75rem; }
+            .loading-progress { font-size: 3rem; }
+            
+            /* Main section spacing */
+            .spline-container { margin-top: 4rem; }
+            .main-text { padding: 2rem 0 1rem 0; } /* Increased top padding */
+            .scroll-prompt { margin-top: 1.5rem; } /* Added space above scroll text */
+            
+            /* Typography section adjustments */
+            .typography-section { padding: 5rem 5% 1rem 5%; gap: 2rem; }
+            .text-animation-container { transform: none; margin-bottom: 2rem; }
+            .text-line-1, .text-line-2, .text-line-3 { font-size: clamp(1.5rem, 8vw, 4rem); text-align: center; }
+            .typography-robot-flex { flex-direction: column; align-items: center; gap: 2rem; }
+            .typography-robot-text { width: 100%; text-align: center; padding: 0; }
+            .typography-robot-box { width: 100%; height: 40vh; max-height: 40vh; }
+            
+            /* Watch additional content stacking */
+            .additional-content-row { flex-direction: column-reverse; gap: 1.5rem; }
+            .additional-text, .meta-winner-logo { width: 100%; margin: 0; align-items: center; text-align: center; }
+            .image-container { width: 100%; min-height: 250px; }
+            .primary-image, .secondary-image { width: 80%; margin: 0 auto; bottom: 0; right: 0; }
+            
+            /* End section text reposition and sizing */
+            .end-section-text-container { 
+                top: 30%;
+                left: 0;
+                width: 100%;
+                transform: translateY(-30%);
+                padding: 0 10px;
+                bottom: auto; /* Remove bottom positioning */
+            }
+            .end-section-text { 
+                font-size: 24vw; /* Increased from 18vw for bigger text */
+                white-space: normal; /* Allow line breaks */
+                line-height: 0.9;
+                width: 100%;
+                text-align: center;
+            }
+            .end-section-text::after {
+                content: none; /* Remove the generic line break */
+            }
+            /* Style specifically for "LET'S" and "CHAT" */
+            .end-section-text .lets, 
+            .end-section-text .chat {
+                display: block; /* Each word on its own line */
+            }
+            .end-section-email { 
+                margin-left: 0; 
+                align-self: center; 
+                font-size: 1.4rem; /* Slightly increased */
+                margin-top: 1rem;
+                width: 100%;
+                text-align: center;
+            }
+            .end-section {
+                padding-bottom: 3rem; /* Reduce padding at bottom */
+            }
+            .end-section spline-viewer {
+                transform: scale(1.6);
+                margin-top: 25vh; /* Move spline down */
+            }
+        }
+
+        /* Header adjustments for mobile */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 1.8rem 4% 1.4rem 4%; /* Match desktop padding */
+            }
+            .logo-container {
+                justify-content: flex-start;
+            }
+            .header-right {
+                justify-content: flex-end;
+            }
+        }
+
+        /* Initial landing page adjustments for mobile */
+        @media (max-width: 768px) {
+            .spline-container {
+                margin-top: 8rem; /* Further increase top margin for better spacing */
+            }
+        }
+
+        /* Second section path correction for mobile */
+        @media (max-width: 768px) {
+            .background-stroke-container {
+                transform: scale(1, 0.9); /* Scale horizontally at 100%, vertically at 90% */
+                height: 90%; /* Reduce overall height by 10% */
+                top: 5%; /* Adjust top position to keep it centered */
+            }
+            
+            .background-stroke {
+                height: 90%; /* Reduce SVG height */
+            }
+        }
+
+        /* Text alignment in section two for mobile */
+        @media (max-width: 768px) {
+            .text-animation-container {
+                align-items: flex-start; /* Left-align text */
+                text-align: left;
+            }
+            
+            .animated-text.text-line-1,
+            .animated-text.text-line-2,
+            .animated-text.text-line-3 {
+                text-align: left;
+            }
+        }
+
+        /* Reduce space between sections for mobile */
+        @media (max-width: 768px) {
+            .watch-additional-content {
+                margin-top: 0; /* Remove extra margin */
+            }
+        }
+
+        /* Video section path alignment for mobile */
+        @media (max-width: 768px) {
+            .video-stroke-container {
+                top: 10%; /* Align path with video placement */
+            }
+        }
+
+        /* Fix image positioning in second last section for mobile */
+        @media (max-width: 768px) {
+            .primary-image, .secondary-image {
+                position: relative;
+                margin: 0 auto;
+            }
+        }
+
+        /* Add responsive scaling for the end section spline viewer based on the same logic as the main spline */
+        @media (max-width: 1200px) {
+            .end-section spline-viewer {
+                transform: scale(1.2);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .end-section spline-viewer {
+                transform: scale(1.4);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .end-section spline-viewer {
+                transform: scale(1.6);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .end-section spline-viewer {
+                transform: scale(1.8);
+            }
+        }
+
+        @media (max-height: 600px) and (orientation: landscape) {
+            .end-section spline-viewer {
+                transform: scale(1.4);
+            }
+        }
+
+        /* Reduce space between sections on mobile */
+        @media (max-width: 768px) {
+            .awards-section {
+                margin-bottom: -25rem; /* Extremely aggressive negative margin */
+                padding-bottom: 0;
+            }
+            
+            .watch-section {
+                margin-top: -25rem; /* Extremely aggressive negative top margin */
+                padding-top: 0;
+                z-index: 4; /* Ensure proper stacking */
+            }
+            
+            .watch-additional-content {
+                margin-top: 0;
+            }
+            
+            /* Reduce the height of the path on mobile */
+            .video-stroke-container {
+                height: 20%;
+                top: 5%;
+                transform: scale(0.5);
+            }
+            
+            .video-stroke {
+                height: 20%;
+            }
+            
+            /* Adjust the viewBox to make the path less tall */
+            .video-stroke[viewBox="0 0 1200 800"] {
+                viewBox: 0 0 1200 150;
+            }
+        }
+        
+        /* Additional adjustments for smaller mobile screens */
+        @media (max-width: 480px) {
+            .awards-section {
+                margin-bottom: -30rem; /* Extremely aggressive negative margin */
+            }
+            
+            .watch-section {
+                margin-top: -30rem; /* Extremely aggressive negative top margin */
+            }
+            
+            /* Further reduce video stroke size on small screens */
+            .video-stroke-container {
+                height: 15%;
+                transform: scale(0.4);
+            }
+        }
+
+        /* Hide the watch-additional-content section (second last section) */
+        .watch-additional-content {
+            display: none; /* Hide the entire section */
+        }
+
+        /* Additional negative margin for mobile */
+        @media (max-width: 768px) {
+            .end-section {
+                margin-top: -15rem; /* More extreme negative margin on mobile */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .end-section {
+                margin-top: -20rem; /* Even more extreme on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-bar-container">
+            <div class="loading-bar-fill" id="loading-bar-fill"></div>
+        </div>
+        <div class="loading-progress">0%</div>
+    </div>
+
+        <!-- Fixed Navbar -->
+    <div class="header">
+            <div class="logo-container">
+            <img src="logo.png" alt="Logo" class="logo-image">
+            </div>
+        <div class="header-right">
+                <div class="menu-button" id="menuButton">
+                    <div class="menu-dot"></div>
+                </div>
+                <div class="menu-dropdown" id="menuDropdown">
+                    <a href="#main" class="menu-item">Home</a>
+                    <a href="#new-section" class="menu-item">About</a>
+                    <a href="#watch" class="menu-item">Technology</a>
+                    <a href="#end" class="menu-item">Contact</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Section -->
+        <section class="section main-section" id="main">
+            <div class="section-content">
+                <div class="spline-container">
+                    <spline-viewer url="https://prod.spline.design/UpRkg7dmor7LhOz3/scene.splinecode" id="main-spline"></spline-viewer>
+                </div>
+            <div class="main-text">
+                <div class="scroll-prompt">
+                    <div class="scroll-text">Scroll</div>
+                    <div class="scroll-arrow"></div>
+                </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- New Section -->
+    <section class="section typography-section" id="new-section">
+        <div class="background-stroke-container">
+            <svg class="background-stroke" viewBox="0 0 2500 2000" preserveAspectRatio="none">
+                <!-- Define the gradient for the stroke -->
+                <defs>
+                    <linearGradient id="strokeGradient" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#7CC2FF" /> <!-- Light blue -->
+                        <stop offset="20%" stop-color="#1E3A8A" /> <!-- Navy -->
+                        <stop offset="40%" stop-color="#B5A6C9" /> <!-- Lilac -->
+                        <stop offset="60%" stop-color="#8A2BE2" /> <!-- Purple -->
+                        <stop offset="80%" stop-color="#FF9966" /> <!-- Sorbet orange -->
+                        <stop offset="100%" stop-color="#FFDD33" /> <!-- Yellow -->
+                    </linearGradient>
+                </defs>
+                <!-- Path starts further off-screen to the right with a smoother circle -->
+                <path class="stroke-path" d="M2000,180 
+                    C1800,80 1450,50 1250,150 
+                    C1050,250 1000,450 1150,600 
+                    C1300,750 1500,750 1550,550 
+                    C1600,350 1300,300 1050,550 
+                    C800,800 700,600 600,400 
+                    C500,200 400,100 300,150" />
+            </svg>
+                </div>
+        <div class="text-animation-container">
+            <div class="text-line-wrapper">
+                <div class="animated-text text-line-1">
+                    <span class="text-thin"><span class="word-animate fade-word">DOSES AI</span> <span class="word-animate fade-word">ARE</span> <span class="letter-animate" data-text="DEVELOPING">DEVELOPING</span> <span class="word-animate fade-word">THE</span> </span><span class="text-heavy"><span class="blur-animate fade-word">NEXT-GEN</span> <span class="word-3d">AUTONOMOUS</span> <span class="word-animate">PHARMACY</span></span>
+                </div>
+            </div>
+            <div class="text-line-wrapper">
+                <div class="animated-text text-line-2">
+                    <span class="text-thin"><span class="word-animate fade-word">WITH</span> </span><span class="text-heavy word-animate float-word">AI</span><span class="text-thin"> <span class="word-animate fade-word">AND</span> </span><span class="text-heavy metallic-silver word-animate">ROBOTICS</span><span class="text-thin"> <span class="word-animate fade-word"></span></span>
+                </div>
+            </div>
+            <!-- <div class="animated-text text-line-3">
+                <span class="english-font word-animate">HARLEY STREET.</span>
+            </div> -->
+                </div>
+                
+        <!-- Robot content moved into typography section -->
+        <div class="typography-robot-flex">
+            <div class="typography-robot-text">
+                <h2 class="main-title animated-text">
+                    <span class="text-thin"><span class="word-animate fade-word">WE</span> <span class="word-animate fade-word">BELIEVE</span> <span class="word-animate fade-word">PREVIOUSLY</span> <span class="word-3d"><b>UNIMAGINABLE</b></span> <span class="word-animate fade-word">AUTONOMOUS</span> <span class="word-animate fade-word">SYSTEMS</span> <span class="word-animate fade-word">ARE</span> <span class="blur-animate"><b>NOW POSSIBLE</b></span> <span class="word-animate fade-word">WITH</span> <span class="word-animate fade-word">THE</span> <span class="word-animate fade-word">ADVANCEMENT</span> <span class="word-animate fade-word">OF</span> <span class="word-animate fade-word"><b>OPEN SOURCE</b></span> <span class="word-animate fade-word">LARGE</span> <span class="word-animate fade-word">LANGUAGE</span> <span class="word-animate fade-word">MODELS</span> <span class="word-animate fade-word">SUCH</span> <span class="word-animate fade-word">AS</span> <span class="word-animate fade-word">META'S</span> <span class="blur-animate"><b>LLAMA MODELS</b></span><span class="word-animate fade-word">,</span> <span class="word-animate fade-word"><b>AND</b></span> <span class="word-animate fade-word"><b>OPEN SOURCE ROBOTICS.</b></span></span><br><br>
+                    
+                    <span class="text-thin"><span class="word-3d"><b>FOUNDED</b></span> <span class="word-animate fade-word">BY</span> <span class="word-animate fade-word">MALIK AHMED</span><span class="word-animate fade-word">,</span> <span class="blur-animate"><b>AI RESEARCHER</b></span> <span class="word-animate fade-word">AT</span> <span class="word-animate fade-word"><b>STANFORD</b>/<b>IMPERIAL</b></span><span class="word-animate fade-word">,</span> <span class="word-animate fade-word"><b>PHARMACIST</b></span><span class="word-animate fade-word">,</span> <span class="word-animate fade-word">AND</span> <span class="word-animate fade-word"><b>META AI HACKATHON WINNER</b></span><span class="word-animate fade-word">,</span> <span class="word-animate fade-word">DOSES</span> <span class="word-animate fade-word">AI</span> <span class="word-animate fade-word">HAS</span> <span class="word-animate fade-word">THE</span> <span class="blur-animate"><b>VISION</b></span> <span class="word-animate fade-word">OF</span> <span class="word-animate fade-word">A</span> <span class="word-animate fade-word">NEAR</span> <span class="word-animate fade-word">FUTURE</span> <span class="word-animate fade-word">WHERE</span> <span class="word-animate fade-word">A</span> <span class="word-animate fade-word">SINGLE</span> <span class="word-animate fade-word">ON-SITE</span> <span class="word-3d"><b>CHIEF PHARMACIST</b></span> <span class="word-animate fade-word">CAN</span> <span class="word-animate fade-word">HANDLE</span> <span class="word-animate fade-word">A</span> <span class="word-animate fade-word">BUSY</span> <span class="word-animate fade-word">PHARMACY</span> <span class="word-animate fade-word">WITH</span> <span class="word-animate fade-word">EASE</span> <span class="word-animate fade-word">SUPPORTED</span> <span class="word-animate fade-word">ENTIRELY</span> <span class="word-animate fade-word">BY</span> <span class="word-animate fade-word"><b>ADVANCED ROBOTICS</b></span> <span class="word-animate fade-word">AND</span> <span class="word-animate fade-word"><b>AI.</b></span></span>
+                </h2>
+                </div>
+            <div class="typography-robot-box">
+                <spline-viewer url="https://prod.spline.design/w1egJnkAaTaEil6X/scene.splinecode"></spline-viewer>
+                </div>
+            </div>
+                </div>
+                
+        <!-- App Store Awards Section -->
+        <div class="awards-section">
+            <div class="awards-container">
+                <img src="AppStoreAwards@3x.png" alt="App Store Awards" class="awards-image">
+                </div>
+            </div>
+        </section>
+        
+    <!-- Apple Watch Section with updated layout -->
+        <section class="section watch-section" id="watch">
+            <!-- SVG Path Animation for Video Section -->
+            <div class="video-stroke-container">
+                <svg class="video-stroke" viewBox="0 0 1200 800" preserveAspectRatio="none">
+                    <!-- Define the gradient for the stroke - yellow to pink with stronger colors -->
+                    <defs>
+                        <linearGradient id="videoStrokeGradient" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#FFDD00" /> <!-- Brighter Yellow -->
+                            <stop offset="25%" stop-color="#FFB0E0" /> <!-- Brighter Pink -->
+                            <stop offset="50%" stop-color="#FF1493" /> <!-- Deep Pink -->
+                            <stop offset="75%" stop-color="#FFDD00" /> <!-- Brighter Yellow -->
+                            <stop offset="100%" stop-color="#FF1493" /> <!-- Deep Pink -->
+                        </linearGradient>
+                    </defs>
+                    <!-- Much larger, more prominent path across the whole section with curve down and back up -->
+                    <path class="video-path" d="M-100,400 
+                        C100,300 200,400 400,500 
+                        C600,600 700,650 900,500 
+                        C1100,350 1300,300 1500,200" />
+                </svg>
+            </div>
+            
+            <!-- Background with video on left, text on right -->
+            <div class="watch-background">
+                <div class="watch-flex">
+                    <!-- Left side video with rounded rectangle -->
+                    <div class="watch-video-container">
+                        <video autoplay loop muted playsinline style="pointer-events: none;">
+                            <source src="Doses-AI_App_Preview.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                
+                    <!-- Right side text content -->
+                    <div class="watch-text">
+                        <h2 class="main-title animated-text">
+                            <span class="text-thin"><span class="word-animate fade-word">OUR</span> <span class="word-animate fade-word">APPLE-AWARD</span> <span class="word-animate fade-word">WINNING</span> <span class="word-animate fade-word">MEDICATION</span> <span class="word-animate fade-word">TRACKING</span> <span class="word-animate fade-word">APP,</span> <span class="word-3d"><b>DOSES</b></span> <span class="word-animate fade-word">(FORMERLY</span> <span class="blur-animate"><b>"DOSEWOLF"</b></span><span class="word-animate fade-word">)</span> <span class="word-animate fade-word">CLOSES</span> <span class="word-animate fade-word">THE</span> <span class="word-animate fade-word">LOOP</span> <span class="word-animate fade-word">BETWEEN</span> <span class="word-animate fade-word">PATIENT,</span> <span class="word-animate fade-word">PHARMACIST</span> <span class="word-animate fade-word">AND</span> <span class="word-animate fade-word">DOCTOR,</span> <span class="word-animate fade-word">THROUGH</span> <span class="word-3d"><b>REAL-TIME</b></span> <span class="word-animate fade-word">ADHERENCE</span> <span class="word-animate fade-word">TRACKING</span> <span class="word-animate fade-word">AND</span> <span class="blur-animate"><b>PRESCRIPTION</b></span> <span class="word-animate fade-word">DELIVERY.</span></span>
+                        </h2>
+                    </div>
+                    </div>
+                    </div>
+
+            <!-- Spline viewer container (overlay layer) -->
+            <spline-viewer url="https://prod.spline.design/Gkd0KoA0MureJE4B/scene.splinecode" hide-attribution></spline-viewer>
+        </section>
+        
+        <!-- Additional content for the watch section -->
+        <div class="watch-additional-content">
+            <!-- Vertical SVG Path Animation for Image Section - moved outside image container -->
+            <div class="vertical-stroke-container visible-vertical-stroke">
+                <svg class="vertical-stroke" viewBox="0 0 1200 2400" preserveAspectRatio="none">
+                    <!-- Define the gradient for the stroke - blue to purple -->
+                    <defs>
+                        <linearGradient id="verticalStrokeGradient" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#3366FF" /> <!-- Bright Blue -->
+                            <stop offset="30%" stop-color="#6633FF" /> <!-- Purple -->
+                            <stop offset="60%" stop-color="#CC33FF" /> <!-- Magenta -->
+                            <stop offset="100%" stop-color="#FF3366" /> <!-- Pink-Red -->
+                        </linearGradient>
+                    </defs>
+                    <!-- Path that creates a horizontal flow with a loop-di-loop in the middle -->
+                    <path class="vertical-path" d="M-100,400 
+                        C50,380 150,420 300,400 
+                        C450,380 550,400 600,400
+                        C700,400 750,300 800,400
+                        C850,500 800,600 700,600
+                        C600,600 550,500 600,400
+                        C650,300 750,350 850,380
+                        C950,410 1050,400 1200,430
+                        C1350,460 1500,430 1700,400" style="stroke-dashoffset: 0;" />
+                </svg>
+                    </div>
+            <div class="additional-content-row">
+                <div class="additional-text">
+                    <!-- Meta Llama Winner Logo with laurel leaves -->
+                    <div class="meta-winner-logo">
+                        <spline-viewer url="https://prod.spline.design/ke5QEIBpEw-R77PU/scene.splinecode" style="width: 100%; height: auto;"></spline-viewer>
+            </div>
+
+                    <!-- Text styled as in the image -->
+                    <div class="meta-text-block animated-text">
+                        <span class="text-thin"><span class="word-animate fade-word">OUR</span> <span class="word-animate fade-word">ON-PREMISES</span> <span class="word-animate fade-word">LLMS</span> <span class="word-animate fade-word">ENHANCE</span> <span class="word-animate fade-word">DATA</span> <span class="word-animate fade-word">PRIVACY,</span> <span class="word-animate fade-word">OPERATIONAL</span> <span class="word-animate fade-word">EFFICIENCY</span> <span class="word-animate fade-word">AND</span> <span class="word-animate fade-word">SCALABILITY,</span> <span class="word-animate fade-word">AS</span> <span class="word-animate fade-word">DEMONSTRATED</span> <span class="word-animate fade-word">IN</span> <span class="word-animate fade-word">OUR</span> <span class="word-animate fade-word">AWARD-WINNING</span> <span class="word-animate fade-word">SOLUTION</span> <span class="word-animate fade-word">AT</span> <span class="word-animate fade-word">THE</span> <span class="word-animate fade-word">META</span> <span class="word-animate fade-word">LLAMA</span> <span class="word-animate fade-word">LONDON</span> <span class="word-animate fade-word">HACKATHON.</span></span>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <div class="primary-image">
+                        <img src="meta1@3x.png" alt="Meta AI Presentation">
+                    </div>
+                    <div class="secondary-image">
+                        <img src="meta2@3x.png" alt="Presenter at Meta">
+                    </div>
+                </div>
+            </div>
+            </div>
+    
+    <!-- Loading Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.querySelector('.loading-screen');
+            const loadingProgress = document.querySelector('.loading-progress');
+            const loadingBarFill = document.getElementById('loading-bar-fill');
+            
+            // Track all important resources
+            const splineViewers = document.querySelectorAll('spline-viewer');
+            const images = document.querySelectorAll('img');
+            const videos = document.querySelectorAll('video');
+            
+            const totalSplines = splineViewers.length;
+            const totalImages = images.length;
+            const totalVideos = videos.length;
+            
+            const totalResources = totalSplines + totalImages + totalVideos;
+            let loadedResources = 0;
+            
+            // Animation variables
+            let displayedProgress = 0;
+            let targetProgress = 0;
+            let animationFrameId = null;
+            
+            // Animate the progress value
+            function animateProgress() {
+                // Ease towards target value
+                const diff = targetProgress - displayedProgress;
+                if (Math.abs(diff) < 0.1) {
+                    displayedProgress = targetProgress;
+                } else {
+                    displayedProgress += diff * 0.05; // Adjust speed by changing this multiplier
+                }
+                
+                // Update the display (hidden, but still update for tracking)
+                loadingProgress.textContent = `${Math.round(displayedProgress)}%`;
+                loadingBarFill.style.width = `${displayedProgress}%`;
+                
+                // Continue animation if not at target
+                if (displayedProgress !== targetProgress) {
+                    animationFrameId = requestAnimationFrame(animateProgress);
+                }
+            }
+            
+            function updateLoadingProgress(progress) {
+                // Set the target progress
+                targetProgress = progress;
+                
+                // Start animation if not running
+                if (animationFrameId === null) {
+                    animationFrameId = requestAnimationFrame(animateProgress);
+                }
+            }
+            
+            function hideLoadingScreen() {
+                // Continue animation to 100% before hiding
+                targetProgress = 100;
+                
+                // Wait for animation to reach 100%
+                const checkProgress = () => {
+                    if (Math.round(displayedProgress) >= 100) {
+                        // Cancel animation
+                        if (animationFrameId) {
+                            cancelAnimationFrame(animationFrameId);
+                            animationFrameId = null;
+                        }
+                        
+                        // Hide loading screen
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                                loadingScreen.style.display = 'none';
+                            }, 500);
+                    } else {
+                        // Check again in a few ms
+                        setTimeout(checkProgress, 20);
+                    }
+                };
+                
+                checkProgress();
+            }
+            
+            // Start progress animation
+            animateProgress();
+            
+            // Initial progress based on DOM content loaded
+            updateLoadingProgress(5);
+            
+            // Track Spline viewers loading
+            splineViewers.forEach((spline) => {
+                spline.addEventListener('load', () => {
+                    loadedResources++;
+                    updateProgress();
+                });
+            });
+            
+            // Track images loading
+            images.forEach((img) => {
+                if (img.complete) {
+                    loadedResources++;
+                } else {
+                    img.addEventListener('load', () => {
+                        loadedResources++;
+                        updateProgress();
+                    });
+                    
+                    img.addEventListener('error', () => {
+                        loadedResources++;
+                        updateProgress();
+                    });
+                }
+            });
+            
+            // Track videos loading
+            videos.forEach((video) => {
+                if (video.readyState >= 2) { // HAVE_CURRENT_DATA or higher
+                    loadedResources++;
+                } else {
+                    video.addEventListener('loadeddata', () => {
+                        loadedResources++;
+                        updateProgress();
+                    });
+                    
+                    video.addEventListener('error', () => {
+                        loadedResources++;
+                        updateProgress();
+                    });
+                }
+            });
+            
+            // Update the overall progress
+            function updateProgress() {
+                // Calculate progress considering DOM loaded as 5% and resources as 95%
+                const resourceProgress = (loadedResources / totalResources) * 95;
+                const totalProgress = 5 + resourceProgress;
+                
+                updateLoadingProgress(totalProgress);
+                
+                // If everything is loaded, hide the loading screen
+                if (loadedResources >= totalResources) {
+                    hideLoadingScreen();
+                }
+            }
+            
+            // Calculate initial progress for already loaded resources
+            updateProgress();
+            
+            // Fallback in case some resources fail to trigger load events
+            window.addEventListener('load', () => {
+                // Give a moment for any final resources to trigger their events
+                setTimeout(() => {
+                    // If we're still not at 100%, force completion
+                    if (loadedResources < totalResources) {
+                        console.log("Fallback: Some resources didn't trigger load events");
+                        loadedResources = totalResources;
+                        updateProgress();
+                    }
+                }, 2000);
+            });
+            
+            // Additional final fallback after a maximum wait time
+            setTimeout(() => {
+                if (loadingScreen.style.display !== 'none') {
+                    console.log("Maximum wait time reached");
+                    hideLoadingScreen();
+                }
+            }, 15000);
+        });
+    </script>
+
+    <!-- Add simplest possible test before any other content -->
+    <div class="basic-test">
+        <h2>Basic Layout Test (outside any section)</h2>
+        <div class="basic-flex">
+            <div class="basic-box"></div>
+            <div class="basic-text">
+                <h3>This is test text</h3>
+                <p>This is a very basic layout test with minimal styling to diagnose the issue.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- GSAP scripts are still useful for other animations, but removing swirl-specific code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+
+    <!-- Animation script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up letter animation
+            function setupLetterAnimation() {
+                const letterElements = document.querySelectorAll('.letter-animate');
+                
+                letterElements.forEach(el => {
+                    const text = el.dataset.text || el.textContent;
+                    el.innerHTML = '';
+                    
+                    // Create spans for each letter
+                    for (let i = 0; i < text.length; i++) {
+                        const letterSpan = document.createElement('span');
+                        letterSpan.className = 'letter';
+                        letterSpan.style.setProperty('--index', i);
+                        letterSpan.textContent = text[i];
+                        el.appendChild(letterSpan);
+                    }
+                });
+            }
+            
+            // Run letter animation setup
+            setupLetterAnimation();
+
+            // Animation code using Intersection Observer
+            const animatedElements = document.querySelectorAll('.animated-text');
+            const textContainer = document.querySelector('.text-animation-container');
+            const robotTextContainer = document.querySelector('.typography-robot-text');
+            const robotBox = document.querySelector('.typography-robot-box');
+            const wordElements = document.querySelectorAll('.word-animate, .word-3d, .blur-animate, .color-animate, .fade-word, .float-word, .highlight-word, .letter-animate');
+            const letterElements = document.querySelectorAll('.letter');
+            const strokeContainer = document.querySelector('.background-stroke-container');
+
+            // Create separate observers for different sections
+            const observerOptions = {
+                root: null,
+                rootMargin: '-10% 0px -10% 0px',
+                threshold: 0.1
+            };
+
+            // Observer for typography section
+            const typographyObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Get only the elements within the main typography section
+                        const mainTextElements = Array.from(animatedElements).filter(el => 
+                            el.closest('.text-animation-container'));
+                        
+                        // Animate the main text lines
+                        mainTextElements.forEach((el) => {
+                            el.classList.add('visible');
+                        });
+                        
+                        // Animate the stroke
+                        if (strokeContainer) {
+                            strokeContainer.classList.add('visible-stroke');
+                        }
+                        
+                        // Animate words and letters only in the main typography section
+                        const mainWords = Array.from(wordElements).filter(el => 
+                            el.closest('.text-animation-container'));
+                        
+                        // Apply animations with minimal delays
+                        mainWords.forEach((word, index) => {
+                            setTimeout(() => {
+                                word.classList.add('visible');
+                            }, 100 + (index * 100));
+                        });
+                        
+                        const mainLetters = Array.from(letterElements).filter(el => 
+                            el.closest('.text-animation-container'));
+                        
+                        mainLetters.forEach((letter) => {
+                            setTimeout(() => {
+                                letter.classList.add('visible');
+                            }, 100);
+                        });
+                        
+                        // Unobserve after animation is triggered
+                        typographyObserver.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observer for robot section
+            const robotSectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Now animate the robot text section
+                        const robotText = document.querySelector('.typography-robot-text .animated-text');
+                        if (robotText) {
+                            robotText.classList.add('visible');
+                        }
+                        
+                        // Get only the elements within the robot text section
+                        const robotWords = Array.from(wordElements).filter(el => 
+                            el.closest('.typography-robot-text'));
+                        
+                        // Apply animations with minimal delays
+                        robotWords.forEach((word, index) => {
+                            setTimeout(() => {
+                                word.classList.add('visible');
+                            }, 100 + (index * 80));
+                        });
+                        
+                        // Unobserve after animation is triggered
+                        robotSectionObserver.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observer for watch section text
+            const watchSectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Animate the watch text
+                        const watchText = document.querySelector('.watch-text .animated-text');
+                        if (watchText) {
+                            watchText.classList.add('visible');
+                        }
+                        
+                        // Animate the SVG path in the video section when scrolled into view
+                        const videoStrokeContainer = document.querySelector('.video-stroke-container');
+                        if (videoStrokeContainer) {
+                            videoStrokeContainer.classList.add('visible-video-stroke');
+                        }
+                        
+                        // Get only the elements within the watch text section
+                        const watchWords = Array.from(wordElements).filter(el => 
+                            el.closest('.watch-text'));
+                        
+                        // Apply animations with minimal delays
+                        watchWords.forEach((word, index) => {
+                            setTimeout(() => {
+                                word.classList.add('visible');
+                            }, 100 + (index * 100));
+                        });
+                        
+                        // Unobserve after animation is triggered
+                        watchSectionObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '-40% 0px -10% 0px',
+                threshold: 0.4
+            });
+
+            // Observer for additional content section
+            const additionalContentObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Animate all text elements in the additional content section
+                        const additionalTextElements = entry.target.querySelectorAll('.animated-text');
+                        additionalTextElements.forEach(el => {
+                            el.classList.add('visible');
+                        });
+                        
+                        // Get all the word elements within this section
+                        const additionalWords = Array.from(wordElements).filter(el => 
+                            el.closest('.additional-text'));
+                        
+                        // Apply animations with minimal delays
+                        additionalWords.forEach((word, index) => {
+                            setTimeout(() => {
+                                word.classList.add('visible');
+                            }, 100 + (index * 100));
+                        });
+                        
+                        // Unobserve after animation is triggered
+                        additionalContentObserver.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe the different sections separately
+            if (textContainer) typographyObserver.observe(textContainer);
+            if (robotBox) robotSectionObserver.observe(robotBox);
+            const watchText = document.querySelector('.watch-text');
+            if (watchText) watchSectionObserver.observe(watchText);
+            const additionalText = document.querySelector('.additional-text');
+            if (additionalText) additionalContentObserver.observe(additionalText);
+        });
+    </script>
+
+    <!-- End Section with Spline Viewer -->
+    <section class="section end-section" id="end">
+        <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.86/build/spline-viewer.js"></script>
+        <div class="end-section-text-container">
+            <div class="end-section-text"><span class="lets">LET'S</span> <span class="chat">CHAT</span></div>
+            <div class="end-section-email">MALIK@DOSES.AI</div>
+        </div>
+        <spline-viewer url="https://prod.spline.design/mkbCsF7IPEQqU9tw/scene.splinecode"></spline-viewer>
+        <div class="copyright">
+            &copy; DOSES AI LIMITED 2025
+        </div>
+    </section>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.getElementById('menuButton');
+            const menuDropdown = document.getElementById('menuDropdown');
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            // Toggle menu when clicked
+            menuButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                menuButton.classList.toggle('active');
+                menuDropdown.classList.toggle('active');
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!menuButton.contains(event.target) && !menuDropdown.contains(event.target)) {
+                    menuButton.classList.remove('active');
+                    menuDropdown.classList.remove('active');
+                }
+            });
+            
+            // Handle menu item clicks with smooth scrolling
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Close the menu
+                    menuButton.classList.remove('active');
+                    menuDropdown.classList.remove('active');
+                    
+                    // Get the target section ID
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        // Smooth scroll to section
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
